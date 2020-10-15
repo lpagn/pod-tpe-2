@@ -10,6 +10,6 @@ public class Query4 {
         final String min = System.getProperty("min");
         final String name = System.getProperty("name");
 
-        System.out.println(city + " " + addresses+ " " + inPath + " " + outPath + " " + min + " " + min + name + " ");
+        System.out.println(city + " " + addresses+ " " + inPath + " " + outPath + " " + min + " " + name);
     }
 }
