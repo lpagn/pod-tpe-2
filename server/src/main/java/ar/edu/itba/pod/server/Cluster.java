@@ -8,6 +8,7 @@ import java.util.Map;
 public class Cluster {
     public static void main(String[] args) {
         HazelcastInstance hz = Hazelcast.newHazelcastInstance();
+
         Map<String, String> datos = hz.getMap("materias");
         datos.put("72.42", "POD");
         System.out.println( String.format("%d Datos en el cluster", datos.size() ));
