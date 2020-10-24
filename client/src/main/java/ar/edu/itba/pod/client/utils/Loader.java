@@ -1,8 +1,12 @@
 package ar.edu.itba.pod.client.utils;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import models.Neighbourhood;
@@ -12,36 +16,47 @@ import org.apache.commons.csv.CSVParser;
 
 public class Loader {
 
-    public static void loadNeighbourhoods(Map<String, Neighbourhood> map, String file) {
+    public static Map<String, Long> loadNeighbourhoods( String file) {
+        Map<String, Long> map = new HashMap<>();
+
         try {
             CSVParser csvParser = new CSVParser(
                     Files.newBufferedReader(Paths.get(file)),
                     CSVFormat.newFormat(';').withFirstRecordAsHeader()
             );
             csvParser.forEach(csvRecord -> {
-                Neighbourhood b = new Neighbourhood(/*csvRecord.get(1),Long.parseLong(csvRecord.get(2))*/);
-                //map.putIfAbsent(b.name, b);
+//                Neighbourhood b = new Neighbourhood(csvRecord.get(1),Long.parseLong(csvRecord.get(2)));
+                map.putIfAbsent(csvRecord.get(0), Long.valueOf(csvRecord.get(1)));
             });
         } catch (IOException ex) {
             System.out.println("Error Loading Neighbourhoods");
         }
+        return map;
     }
 
-    public static void loadTrees(Map<String, Tree> map, String file) {
+    public static Map<Long, Tree> loadTrees(String file) {
+        Map<Long, Tree> map = new HashMap<>();
         try {
 
             CSVParser csvParser = new CSVParser(
                     Files.newBufferedReader(Paths.get(file)),
-                    CSVFormat.newFormat(';').withFirstRecordAsHeader()
+                    CSVFormat.newFormat(';').withFirstRecordAsHeader().withNullString("\t")
             );
-            csvParser.forEach(csvRecord -> map.put(
-                    String.valueOf(csvRecord.getRecordNumber()),
-                    new Tree(/*field1,field2,...,fieldN*/
-                    )));
+            System.out.println("AAA");
+            System.out.println(csvParser.getRecords().size());
+            csvParser.forEach(csvRecord -> {
+                System.out.println(csvRecord.get(0));
+                map.putIfAbsent(
+                        Long.valueOf(csvRecord.get(0)),
+                        new Tree(csvRecord.get(2), csvRecord.get(4), csvRecord.get(7), Double.parseDouble(csvRecord.get(11))));
+                });
+
         } catch (IllegalArgumentException ex){
             System.out.println("Error in Arguments");
         } catch (IOException ex) {
             System.out.println("Errors Loading Trees");
+            ex.printStackTrace();
         }
+        return map;
     }
 }

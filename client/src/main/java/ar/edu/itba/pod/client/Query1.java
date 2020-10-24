@@ -1,6 +1,14 @@
 package ar.edu.itba.pod.client;
 
+import ar.edu.itba.pod.client.utils.Loader;
 import ar.edu.itba.pod.client.utils.QueryUtils;
+import com.hazelcast.client.HazelcastClient;
+import com.hazelcast.client.config.ClientConfig;
+import com.hazelcast.config.GroupConfig;
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.IMap;
+import models.Neighbourhood;
+import models.Tree;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,6 +25,28 @@ public class Query1 {
         final String addresses = System.getProperty("addresses");
         final String inPath = System.getProperty("inPath");
         final String outPath = System.getProperty("outPath");
+
+//        final ClientConfig ccfg = new ClientConfig()
+//                .setGroupConfig(new GroupConfig()
+//                        .setName("grupo10")
+//                        .setPassword("grupo10"));
+//
+//        final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
+//
+
+//        final IMap<String, Long> map = client.getMap("g10m1");
+//        map.clear();
+//
+//        map.putAll(Loader.loadNeighbourhoods("C:\\Users\\fedeb\\Desktop\\barriosBUE.csv"));
+
+//        final IMap<Long,Tree> map2 = client.getMap("g10m2");
+//        map2.putAll(Loader.loadTrees("C:\\Users\\fedeb\\Desktop\\arbolesBUE.csv"));
+//        map2.clear();
+
+        System.out.println(Loader.loadTrees("C:\\Users\\fedeb\\Desktop\\arbolesBUE.csv"));
+
+//        System.out.println(map.get("1"));
+
 
         System.out.println(city + " " + addresses+ " " + inPath + " " + outPath);
 

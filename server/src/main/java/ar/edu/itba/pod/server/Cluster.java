@@ -1,5 +1,8 @@
 package ar.edu.itba.pod.server;
 
+import com.hazelcast.config.Config;
+import com.hazelcast.config.GroupConfig;
+import com.hazelcast.config.MapConfig;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 
@@ -7,13 +10,17 @@ import java.util.Map;
 
 public class Cluster {
     public static void main(String[] args) {
-        HazelcastInstance hz = Hazelcast.newHazelcastInstance();
+        Config config = new Config().setGroupConfig(
+                new GroupConfig().setName("grupo10").setPassword("grupo10"))
+                .setInstanceName("grupo10")
+                .addMapConfig(new MapConfig().setName("g10m1"))
+                .addMapConfig(new MapConfig().setName("g10m2"))
+                .addMapConfig(new MapConfig().setName("g10m3"))
+                .addMapConfig(new MapConfig().setName("g10m4"))
+                .addMapConfig(new MapConfig().setName("g10m5"));
 
-        Map<String, String> datos = hz.getMap("materias");
-        datos.put("72.42", "POD");
-        System.out.println( String.format("%d Datos en el cluster", datos.size() ));
-        for (String key : datos.keySet()) {
-            System.out.println(String.format( "Datos con key %s= %s", key, datos.get(key)));
-        }
+        Hazelcast.newHazelcastInstance(config);
+
+
     }
 }
