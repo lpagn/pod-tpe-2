@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import models.Neighbourhood;
 import models.Tree;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
