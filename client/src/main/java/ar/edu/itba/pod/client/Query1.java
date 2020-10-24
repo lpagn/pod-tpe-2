@@ -26,26 +26,25 @@ public class Query1 {
         final String inPath = System.getProperty("inPath");
         final String outPath = System.getProperty("outPath");
 
-//        final ClientConfig ccfg = new ClientConfig()
-//                .setGroupConfig(new GroupConfig()
-//                        .setName("grupo10")
-//                        .setPassword("grupo10"));
-//
-//        final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
-//
+        final ClientConfig ccfg = new ClientConfig()
+                .setGroupConfig(new GroupConfig()
+                        .setName("grupo10")
+                        .setPassword("grupo10"));
 
-//        final IMap<String, Long> map = client.getMap("g10m1");
-//        map.clear();
-//
-//        map.putAll(Loader.loadNeighbourhoods("C:\\Users\\fedeb\\Desktop\\barriosBUE.csv"));
+        final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
-//        final IMap<Long,Tree> map2 = client.getMap("g10m2");
-//        map2.putAll(Loader.loadTrees("C:\\Users\\fedeb\\Desktop\\arbolesBUE.csv"));
-//        map2.clear();
 
-        System.out.println(Loader.loadTrees("C:\\Users\\fedeb\\Desktop\\arbolesBUE.csv"));
+        final IMap<String, Integer> map = client.getMap("g10m1");
+        map.clear();
+        map.putAll(Loader.loadNeighbourhoods("C:\\Users\\fedeb\\Desktop\\barriosBUE.csv"));
 
-//        System.out.println(map.get("1"));
+
+        final IMap<Integer,Tree> map2 = client.getMap("g10m2");
+        map2.clear();
+        map2.putAll(Loader.loadTrees("C:\\Users\\fedeb\\Desktop\\arbolesBUE.csv"));
+
+
+        System.out.println(map2.size());
 
 
         System.out.println(city + " " + addresses+ " " + inPath + " " + outPath);

@@ -1,6 +1,8 @@
 package models;
 
-public class Tree {
+import java.io.Serializable;
+
+public class Tree implements Serializable {
     String neighbourhood;
     String street;
     String name;
