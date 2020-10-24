@@ -29,20 +29,20 @@ public class Query1 {
 
         final ClientConfig ccfg = new ClientConfig()
                 .setGroupConfig(new GroupConfig()
-                        .setName("grupo10")
-                        .setPassword("grupo10"));
+                        .setName("g10")
+                        .setPassword("g10"));
 
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
 
 
-        final IMap<String, Integer> map = client.getMap("Q1Neighbourhood");
+        final IMap<String, Integer> map = client.getMap("g10Q1Neighbourhood");
         map.clear();
         URL barrios = Query1.class.getClassLoader().getResource("barriosBUE.csv");
         map.putAll(Loader.loadNeighbourhoods(barrios.getFile()));
 
 
-        final IMap<Integer,Tree> map2 = client.getMap("Q1Trees");
+        final IMap<Integer,Tree> map2 = client.getMap("g10Q1Trees");
         map2.clear();
         URL arboles = Query1.class.getClassLoader().getResource("arbolesBUE.csv");
         map2.putAll(Loader.loadTrees(arboles.getFile()));
