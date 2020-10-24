@@ -2,6 +2,6 @@
 
 #echo "Query 2"
 
-cd client/target/POD-client-1.0-SNAPSHOT
+cd client/target/tpe2-g10-client-1.0-SNAPSHOT
 
 java $* -cp 'lib/jars/*' "ar.edu.itba.pod.client.Query2" $*
