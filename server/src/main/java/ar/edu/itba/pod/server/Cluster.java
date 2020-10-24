@@ -13,11 +13,12 @@ public class Cluster {
         Config config = new Config().setGroupConfig(
                 new GroupConfig().setName("grupo10").setPassword("grupo10"))
                 .setInstanceName("grupo10")
-                .addMapConfig(new MapConfig().setName("g10m1"))
-                .addMapConfig(new MapConfig().setName("g10m2"))
-                .addMapConfig(new MapConfig().setName("g10m3"))
-                .addMapConfig(new MapConfig().setName("g10m4"))
-                .addMapConfig(new MapConfig().setName("g10m5"));
+                .addMapConfig(new MapConfig().setName("Q1Trees"))
+                .addMapConfig(new MapConfig().setName("Q1Neighbourhood"))
+                .addMapConfig(new MapConfig().setName("Q2Trees"))
+                .addMapConfig(new MapConfig().setName("Q3Trees"))
+                .addMapConfig(new MapConfig().setName("Q4Trees"))
+                .addMapConfig(new MapConfig().setName("Q5Trees"));
 
         Hazelcast.newHazelcastInstance(config);
 

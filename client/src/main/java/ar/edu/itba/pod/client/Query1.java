@@ -36,22 +36,19 @@ public class Query1 {
 
 
 
-        final IMap<String, Integer> map = client.getMap("g10m1");
+        final IMap<String, Integer> map = client.getMap("Q1Neighbourhood");
         map.clear();
         URL barrios = Query1.class.getClassLoader().getResource("barriosBUE.csv");
         map.putAll(Loader.loadNeighbourhoods(barrios.getFile()));
 
 
-        final IMap<Integer,Tree> map2 = client.getMap("g10m2");
+        final IMap<Integer,Tree> map2 = client.getMap("Q2Trees");
         map2.clear();
         URL arboles = Query1.class.getClassLoader().getResource("arbolesBUE.csv");
         map2.putAll(Loader.loadTrees(arboles.getFile()));
 
 
         System.out.println(map2.size());
-
-
-
 
         System.out.println(city + " " + addresses+ " " + inPath + " " + outPath);
 
