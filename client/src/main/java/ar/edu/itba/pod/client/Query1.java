@@ -43,7 +43,7 @@ public class Query1 {
 //        map2.putAll(Loader.loadTrees("C:\\Users\\fedeb\\Desktop\\arbolesBUE.csv"));
 //        map2.clear();
 
-        System.out.println(Loader.loadTrees("C:\\Users\\fedeb\\Desktop\\arbolesBUE.csv"));
+        System.out.println(Loader.loadTrees("C:\\Users\\manu_\\workspace-paw\\pod-tpe-2\\client\\src\\main\\resources\\arbolesBUE.csv"));
 
 //        System.out.println(map.get("1"));
 

@@ -1,6 +1,9 @@
 package ar.edu.itba.pod.client.utils;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -39,7 +42,7 @@ public class Loader {
         try {
 
             CSVParser csvParser = new CSVParser(
-                    Files.newBufferedReader(Paths.get(file)),
+                    new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8")),
                     CSVFormat.newFormat(';').withFirstRecordAsHeader().withNullString("\t")
             );
             System.out.println("AAA");
