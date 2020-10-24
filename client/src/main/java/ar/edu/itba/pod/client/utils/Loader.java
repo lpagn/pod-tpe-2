@@ -24,8 +24,9 @@ public class Loader {
 
         try {
             CSVParser csvParser = new CSVParser(
-                    Files.newBufferedReader(Paths.get(file)),
+                    new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)),
                     CSVFormat.newFormat(';').withFirstRecordAsHeader()
+
             );
             csvParser.forEach(csvRecord -> {
 //                Neighbourhood b = new Neighbourhood(csvRecord.get(1),Long.parseLong(csvRecord.get(2)));
@@ -42,7 +43,7 @@ public class Loader {
         try {
 
             CSVParser csvParser = new CSVParser(
-                    new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8")),
+                    new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)),
                     CSVFormat.newFormat(';').withFirstRecordAsHeader()
 
             );

@@ -10,6 +10,7 @@ import com.hazelcast.core.IMap;
 import models.Neighbourhood;
 import models.Tree;
 
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -33,23 +34,23 @@ public class Query1 {
 
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
-//        final IMap<String, Long> map = client.getMap("g10m1");
-//        map.clear();
-//
-//        map.putAll(Loader.loadNeighbourhoods("C:\\Users\\fedeb\\Desktop\\barriosBUE.csv"));
+
 
         final IMap<String, Integer> map = client.getMap("g10m1");
         map.clear();
-        map.putAll(Loader.loadNeighbourhoods("C:\\Users\\fedeb\\Desktop\\barriosBUE.csv"));
+        URL barrios = Query1.class.getClassLoader().getResource("barriosBUE.csv");
+        map.putAll(Loader.loadNeighbourhoods(barrios.getFile()));
 
-        System.out.println(Loader.loadTrees("C:\\Users\\fedeb\\Desktop\\arbolesBUE.csv"));
 
         final IMap<Integer,Tree> map2 = client.getMap("g10m2");
         map2.clear();
-        map2.putAll(Loader.loadTrees("C:\\Users\\fedeb\\Desktop\\arbolesBUE.csv"));
+        URL arboles = Query1.class.getClassLoader().getResource("arbolesBUE.csv");
+        map2.putAll(Loader.loadTrees(arboles.getFile()));
 
 
         System.out.println(map2.size());
+
+
 
 
         System.out.println(city + " " + addresses+ " " + inPath + " " + outPath);
