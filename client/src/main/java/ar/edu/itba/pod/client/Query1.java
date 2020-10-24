@@ -42,7 +42,7 @@ public class Query1 {
         map.putAll(Loader.loadNeighbourhoods(barrios.getFile()));
 
 
-        final IMap<Integer,Tree> map2 = client.getMap("Q2Trees");
+        final IMap<Integer,Tree> map2 = client.getMap("Q1Trees");
         map2.clear();
         URL arboles = Query1.class.getClassLoader().getResource("arbolesBUE.csv");
         map2.putAll(Loader.loadTrees(arboles.getFile()));
