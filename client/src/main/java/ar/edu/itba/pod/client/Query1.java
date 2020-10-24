@@ -33,11 +33,16 @@ public class Query1 {
 
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
+//        final IMap<String, Long> map = client.getMap("g10m1");
+//        map.clear();
+//
+//        map.putAll(Loader.loadNeighbourhoods("C:\\Users\\fedeb\\Desktop\\barriosBUE.csv"));
 
         final IMap<String, Integer> map = client.getMap("g10m1");
         map.clear();
         map.putAll(Loader.loadNeighbourhoods("C:\\Users\\fedeb\\Desktop\\barriosBUE.csv"));
 
+        System.out.println(Loader.loadTrees("C:\\Users\\fedeb\\Desktop\\arbolesBUE.csv"));
 
         final IMap<Integer,Tree> map2 = client.getMap("g10m2");
         map2.clear();

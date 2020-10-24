@@ -43,8 +43,8 @@ public class Loader {
 
             CSVParser csvParser = new CSVParser(
                     new BufferedReader(new InputStreamReader(new FileInputStream(file),"utf-8")),
-                    //Files.newBufferedReader(Paths.get(file)),
                     CSVFormat.newFormat(';').withFirstRecordAsHeader()
+
             );
             csvParser.forEach(csvRecord ->
                 map.putIfAbsent(
