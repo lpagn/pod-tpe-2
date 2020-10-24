@@ -6,7 +6,6 @@
     <groupId>ar.edu.itba.pod</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>ar.edu.itba.pod</groupId>
   <artifactId>tpe2-g10-server</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>tpe2-g10-server</name>
@@ -25,11 +24,6 @@
     <dependency>
       <groupId>com.hazelcast</groupId>
       <artifactId>hazelcast-all</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast-all</artifactId>
-      <version>3.7.8</version>
     </dependency>
   </dependencies>
   <build>
