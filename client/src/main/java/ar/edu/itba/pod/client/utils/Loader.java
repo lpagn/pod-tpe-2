@@ -19,7 +19,7 @@ public class Loader {
                     CSVFormat.newFormat(';').withFirstRecordAsHeader()
             );
             csvParser.forEach(csvRecord -> {
-                Neighbourhood b = new Neighbourhood(/*csvRecord.get(1),Long.parseLong(csvRecord.get(2))*/);
+                Neighbourhood b = new Neighbourhood(csvRecord.get(1),Integer.parseInt(csvRecord.get(2)));
                 //map.putIfAbsent(b.name, b);
             });
         } catch (IOException ex) {
@@ -36,8 +36,10 @@ public class Loader {
             );
             csvParser.forEach(csvRecord -> map.put(
                     String.valueOf(csvRecord.getRecordNumber()),
-                    new Tree(/*field1,field2,...,fieldN*/
+                    new Tree(csvRecord.get(1),csvRecord.get(2),csvRecord.get(3),Double.parseDouble(csvRecord.get(4))
                     )));
+                    //TODO ver cada campo que indice es
+                    //
         } catch (IllegalArgumentException ex){
             System.out.println("Error in Arguments");
         } catch (IOException ex) {
