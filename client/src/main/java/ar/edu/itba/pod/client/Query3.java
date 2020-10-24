@@ -1,5 +1,7 @@
 package ar.edu.itba.pod.client;
 
+import ar.edu.itba.pod.client.utils.QueryUtils;
+
 public class Query3 {
     public static void main(String [] args){
         System.out.println("Query 3");
@@ -10,5 +12,17 @@ public class Query3 {
         final String n = System.getProperty("n");
 
         System.out.println(city + " " + addresses+ " " + inPath + " " + outPath + " " + n);
+
+        String s = QueryUtils.now() + " INFO [main] Query3 (Query3.java:xx) - Inicio de la lectura del archivo\n";
+        System.out.println(s);
+
+        String t = QueryUtils.now() + " INFO [main] Query3 (Query3.java:xx) - Fin de la lectura del archivo\n";
+        System.out.println(t);
+
+        String u = QueryUtils.now() + " INFO [main] Query3 (Query3.java:xx) - Inicio del trabajo map/reduce\n";
+        System.out.println(u);
+
+        String v = QueryUtils.now() + " INFO [main] Query3 (Query3.java:xx) - Fin del trabajo map/reduce\n";
+        System.out.println(v);
     }
 }
