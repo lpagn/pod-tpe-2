@@ -1,18 +1,31 @@
 package collators;
 
 import com.hazelcast.mapreduce.Collator;
+import models.Pair;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
-public class Collator1Q4 implements Collator<Map.Entry<String, Long>, Map<String,String>> {
+public class Collator1Q4 implements Collator<Map.Entry<String, Integer>, List<Pair<String,String>>> {
+    static int min;
+
+    public Collator1Q4(int min){
+        Collator1Q4.min =min;
+    }
+
     @Override
-    public Map<String, String> collate( Iterable<Map.Entry<String, Long>> values ) {
-        Map<String,String> map= new HashMap<>();
+    public List<Pair<String,String>> collate( Iterable<Map.Entry<String, Integer>> values ) {
+        List<Pair<String,String>> list= new LinkedList<>();
         long sum = 0;
-        for ( Map.Entry<String, Long> entry : values ) {
-            sum += entry.getValue().longValue();
+        for ( Map.Entry<String, Integer> entry1 : values ) {
+            for (Map.Entry<String,Integer> entry2 : values){
+                if(entry1.getValue().equals(entry2.getValue()) && entry1.getKey().compareTo(entry2.getKey())<0 && entry1.getValue()>=min){
+                    list.add(new Pair<>(entry1.getKey(), entry2.getKey()));
+                }
+            }
         }
-        return map;
+        return list;
     }
 }

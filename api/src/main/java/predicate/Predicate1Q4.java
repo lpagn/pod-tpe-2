@@ -1,16 +1,17 @@
 package predicate;
 
 import com.hazelcast.mapreduce.KeyPredicate;
+import models.Pair;
 
-public class Predicate1Q4 implements KeyPredicate<String> {
+public class Predicate1Q4 implements KeyPredicate<Pair<Integer,String>> {
     String specie;
 
-    Predicate1Q4(String specie){
+    public Predicate1Q4(String specie){
         this.specie=specie;
     }
 
     @Override
-    public boolean evaluate( String s ) {
-        return s != null && s.toLowerCase().contains("specie");
+    public boolean evaluate(Pair<Integer,String> s ) {
+        return s != null && s.getValue().contains(specie);
     }
 }

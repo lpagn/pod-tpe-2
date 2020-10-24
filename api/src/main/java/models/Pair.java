@@ -1,6 +1,8 @@
 package models;
 
-public class Pair<K,V> {
+import java.io.Serializable;
+
+public class Pair<K,V> implements Serializable {
     K key;
     V value;
 

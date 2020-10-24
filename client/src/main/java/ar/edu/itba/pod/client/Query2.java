@@ -37,7 +37,6 @@ public class Query2 {
         Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
         ICompletableFuture<Map<String, Integer>> future = job
                 .mapper( new mapperq2() )
-                .combiner( new CombinerFactory1Q4() )
                 .reducer( new reducerq2() )
                 .submit();
 // Attach a callback listener
