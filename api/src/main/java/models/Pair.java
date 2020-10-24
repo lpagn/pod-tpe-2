@@ -11,6 +11,17 @@ public class Pair<K,V> implements Serializable {
         this.value = value;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Pair)){
+            return false;
+        }
+
+        Pair<K,V> p = (Pair<K,V>) obj;
+
+        return p.key == this.key;
+    }
+
     public K getKey() {
         return key;
     }
