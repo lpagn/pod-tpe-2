@@ -42,26 +42,26 @@ public class Query1 {
         // Neighbourhood file parsing
         final IMap<String, Integer> map = client.getMap("g10Q1Neighbourhood");
         map.clear();
-        URL neigh = Query1.class.getClassLoader().getResource("barriosBUE.csv");
+        URL neigh = Query1.class.getClassLoader().getResource("barriosVAN.csv");
 
         if(neigh == null){
             logger.error("Error loading neighbourhood file");
             System.exit(-1);
         }
 
-        map.putAll(Loader.loadNeighbourhoods(neigh.getFile()));
+        map.putAll(Loader.loadNeighbourhoods(neigh.getFile(), "VAN"));
 
         // Tree file parsing
         final IMap<Integer,Tree> map2 = client.getMap("g10Q1Trees");
         map2.clear();
-        URL trees = Query1.class.getClassLoader().getResource("arbolesBUE.csv");
+        URL trees = Query1.class.getClassLoader().getResource("arbolesVAN.csv");
 
         if(trees == null){
             logger.error("Error loading tree file");
             System.exit(-1);
         }
 
-        map2.putAll(Loader.loadTrees(trees.getFile()));
+        map2.putAll(Loader.loadTrees(trees.getFile(), "VAN"));
 
         // CompletableFuture object construction
         Job<Integer,Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
@@ -76,8 +76,11 @@ public class Query1 {
         // Results printing
         Map<String,Double> result = future.get();
         for(Map.Entry<String,Double> entry : result.entrySet()){
-            logger.info(String.format("%s: %f\n", entry.getKey(), entry.getValue()));
+            logger.info(String.format("%s: %2.2f\n", entry.getKey(), entry.getValue()));
         }
+
+        // Exit
+        System.exit(1);
     }
 }
 
