@@ -25,7 +25,7 @@ import java.util.Map;
 public class Query4 {
     public static void main(String [] args){
         System.out.println("Query 4");
-        final String city = System.getProperty("city");
+        String city = System.getProperty("city");
         final String addresses = System.getProperty("addresses");
         final String inPath = System.getProperty("inPath");
         final String outPath = System.getProperty("outPath");
@@ -35,8 +35,9 @@ public class Query4 {
                 .setGroupConfig(new GroupConfig()
                         .setName("g10")
                         .setPassword("g10"));
-        int min=5;
-        String specie ="Acacia dealbata";
+        int min=11000;
+        city="BUE";
+        String specie ="Fraxinus pennsylvanica";
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
 //        final IMap<String, Integer> map = client.getMap("g10Q1Neighbourhood");
@@ -52,7 +53,7 @@ public class Query4 {
         final IMap<Pair<Integer,String>, String> map3 = client.getMap("g10Q1NeighToTreeName");
         map3.clear();
         arboles = Query1.class.getClassLoader().getResource("arbolesBUE.csv");
-        map3.putAll(Loader.loadNeighToTreeName(arboles.getFile()));
+        map3.putAll(Loader.loadNeighToTreeName(arboles.getFile(),city));
 
 
 
@@ -77,7 +78,8 @@ public class Query4 {
             e.printStackTrace();
         }
         // Wait and retrieve the result
-        result.forEach((element) -> System.out.println("Key = [" + element.getKey() + "], Value = [" + element.getValue() + "]"));
+        System.out.println("Barrio A;Barrio B");
+        result.forEach((element) -> System.out.println(element.getKey() + ";" + element.getValue()));
 
 
 

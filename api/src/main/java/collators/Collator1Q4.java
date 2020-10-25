@@ -25,6 +25,7 @@ public class Collator1Q4 implements Collator<Map.Entry<String, Integer>, List<Pa
                 }
             }
         }
+        list.sort((a,b)->(a.getKey().compareTo(b.getKey())==0?a.getValue().compareTo(b.getValue()):a.getKey().compareTo(b.getKey())));
         return list;
     }
 }

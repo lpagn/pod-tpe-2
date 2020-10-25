@@ -24,7 +24,6 @@ public class Reducer1Q4 implements ReducerFactory<String,Integer,Integer> {
 
         @Override
         public Integer finalizeReduce() {
-            System.out.println(sum);
             return sum;
         }
     }
