@@ -1,6 +1,7 @@
 package ar.edu.itba.pod.client;
 
 import ar.edu.itba.pod.client.utils.Loader;
+import collators.collatorq2;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.config.GroupConfig;
@@ -8,14 +9,16 @@ import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.ICompletableFuture;
 import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Job;
+import com.hazelcast.mapreduce.JobCompletableFuture;
 import com.hazelcast.mapreduce.KeyValueSource;
-import combiners.CombinerFactory1Q4;
+import combiners.combinerq2;
 import mappers.mapperq2;
 import models.Tree;
 import reducers.reducerq2;
 
 import java.net.URL;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 public class Query2 {
@@ -31,20 +34,21 @@ public class Query2 {
         final IMap<Integer, Tree> map2 = client.getMap("g10Q2Trees");
         map2.clear();
         URL arboles = Query1.class.getClassLoader().getResource("arbolesBUE.csv");
-        map2.putAll(Loader.loadTrees(arboles.getFile()));
+        map2.putAll(Loader.loadTrees(arboles.getFile(),"BUE"));
 
 
         Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
-        ICompletableFuture<Map<String, Integer>> future = job
+        JobCompletableFuture<Set<Map.Entry<String, String>>> future = job
                 .mapper( new mapperq2() )
+                .combiner(new combinerq2())
                 .reducer( new reducerq2() )
-                .submit();
+                .submit(new collatorq2(10));
 // Attach a callback listener
 //        future.andThen( buildCallback() );
 // Wait and retrieve the result
-        while(!future.isDone());
+//        while(!future.isDone());
 
-        Map<String, Integer> result = future.get();
+        Set<Map.Entry<String, String>> result = future.get();
         System.out.println(result);
 
 //        final String city = System.getProperty("city");

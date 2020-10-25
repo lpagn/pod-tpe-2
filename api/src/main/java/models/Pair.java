@@ -37,4 +37,14 @@ public class Pair<K,V> implements Serializable {
     public void setValue(V value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s;%s",key.toString(),value.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return key.hashCode()+value.hashCode();
+    }
 }
