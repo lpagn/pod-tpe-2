@@ -1,12 +1,25 @@
 package models;
 
-public class Pair<K,V> {
+import java.io.Serializable;
+
+public class Pair<K,V> implements Serializable {
     K key;
     V value;
 
     public Pair(K key, V value) {
         this.key = key;
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Pair)){
+            return false;
+        }
+
+        Pair<K,V> p = (Pair<K,V>) obj;
+
+        return p.key == this.key;
     }
 
     public K getKey() {

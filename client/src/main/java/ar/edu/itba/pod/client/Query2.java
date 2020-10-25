@@ -1,7 +1,6 @@
 package ar.edu.itba.pod.client;
 
 import ar.edu.itba.pod.client.utils.Loader;
-import ar.edu.itba.pod.client.utils.QueryUtils;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.config.GroupConfig;
@@ -10,6 +9,7 @@ import com.hazelcast.core.ICompletableFuture;
 import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Job;
 import com.hazelcast.mapreduce.KeyValueSource;
+import combiners.CombinerFactory1Q4;
 import mappers.mapperq2;
 import models.Tree;
 import reducers.reducerq2;

@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import models.Neighbourhood;
+import models.Pair;
 import models.Tree;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -51,6 +51,29 @@ public class Loader {
                 map.putIfAbsent(
                         Integer.valueOf(csvRecord.get(0)),
                         new Tree(csvRecord.get(2), csvRecord.get(4), csvRecord.get(7), Double.parseDouble(csvRecord.get(11))))
+            );
+
+        } catch (IllegalArgumentException ex){
+            System.out.println("Error in Arguments");
+        } catch (IOException ex) {
+            System.out.println("Errors Loading Trees");
+            ex.printStackTrace();
+        }
+        return map;
+    }
+
+    public static Map<Pair<Integer,String>,String> loadNeighToTreeName(String file) {
+        Map<Pair<Integer,String>, String> map = new HashMap<>();
+        try {
+
+            CSVParser csvParser = new CSVParser(
+                    new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)),
+                    CSVFormat.newFormat(';').withFirstRecordAsHeader()
+
+            );
+            csvParser.forEach(csvRecord ->
+                    map.putIfAbsent(new Pair<>(Integer.valueOf(csvRecord.get(0)),csvRecord.get(7)),
+                            csvRecord.get(2))
             );
 
         } catch (IllegalArgumentException ex){
