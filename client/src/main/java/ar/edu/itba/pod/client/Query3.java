@@ -49,7 +49,7 @@ public class Query3 {
         JobCompletableFuture<List<Pair<String, Double>>> future = job
                 .mapper( new mapperq3() )
                 .reducer( new reducerq3() )
-                .submit(new collatorq3());
+                .submit(new collatorq3(10));//TODO: parametrize
 
         while(!future.isDone());
 

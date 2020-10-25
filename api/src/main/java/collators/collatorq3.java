@@ -9,9 +9,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class collatorq3 implements Collator<Map.Entry<String, Double>, List<Pair<String,Double>>> {
-    //int N;
-    public collatorq3(/*int N*/){
-        //this.N = N;
+    int N;
+    public collatorq3(int N){
+        this.N = N;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class collatorq3 implements Collator<Map.Entry<String, Double>, List<Pair
             list.add(new Pair<>(entry.getKey(), entry.getValue()));
         }
 
-        return list.stream().sorted((x1, x2) -> x2.getValue().compareTo(x1.getValue())).collect(Collectors.toList()).subList(0,5);//N
+        return list.stream().sorted((x1, x2) -> x2.getValue().compareTo(x1.getValue())).collect(Collectors.toList()).subList(0,N);
     }
 }
 
