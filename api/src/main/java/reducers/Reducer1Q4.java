@@ -3,6 +3,8 @@ package reducers;
 import com.hazelcast.mapreduce.Reducer;
 import com.hazelcast.mapreduce.ReducerFactory;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Reducer1Q4 implements ReducerFactory<String,Integer,Integer> {
     @Override
     public Reducer<Integer, Integer> newReducer(String s) {
@@ -13,17 +15,17 @@ public class Reducer1Q4 implements ReducerFactory<String,Integer,Integer> {
         private volatile int sum;
 
         @Override
-        public void beginReduce() {
+        public synchronized void beginReduce() {
             sum = 0;
         }
 
         @Override
-        public void reduce(Integer i) {
+        public synchronized void reduce(Integer i) {
             sum+=i;
         }
 
         @Override
-        public Integer finalizeReduce() {
+        public synchronized Integer finalizeReduce() {
             return sum;
         }
     }

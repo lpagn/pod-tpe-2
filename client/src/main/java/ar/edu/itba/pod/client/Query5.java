@@ -44,7 +44,7 @@ public class Query5 {
         final IMap<Integer, Tree> map5 = client.getMap("g10Q5Trees");
         map5.clear();
         URL arboles = Query3.class.getClassLoader().getResource("arbolesBUE.csv");
-        map5.putAll(Loader.loadTrees(arboles.getFile()));
+        map5.putAll(Loader.loadTrees(arboles.getFile(),"BUE"));
 
 
         Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map5));

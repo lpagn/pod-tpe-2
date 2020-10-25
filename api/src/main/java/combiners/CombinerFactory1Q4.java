@@ -13,17 +13,17 @@ public class CombinerFactory1Q4 implements CombinerFactory<String, Integer, Inte
         private Integer sum = 0;
 
         @Override
-        public void combine( Integer value ) {
+        public synchronized void combine( Integer value ) {
             sum+=value;
         }
 
         @Override
-        public Integer finalizeChunk() {
+        public synchronized Integer finalizeChunk() {
             return sum;
         }
 
         @Override
-        public void reset() {
+        public synchronized void reset() {
             sum = 0;
         }
     }
