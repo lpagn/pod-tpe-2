@@ -53,12 +53,12 @@ public class Query1 {
         // Neighbourhood file parsing
         final IMap<String, Integer> map = client.getMap("g10Q1Neighbourhood");
         map.clear();
-        map.putAll(Loader.loadNeighbourhoods(inPath + "/barriosBUE.csv", city));
+        map.putAll(Loader.loadNeighbourhoods(inPath + "/barrios" + city + ".csv", city));
 
         // Tree file parsing
         final IMap<Integer,Tree> map2 = client.getMap("g10Q1Trees");
         map2.clear();
-        map2.putAll(Loader.loadTrees(inPath + "/arbolesBUE.csv", city));
+        map2.putAll(Loader.loadTrees(inPath + "/arboles" + city + ".csv", city));
 
         // CompletableFuture object construction
         Job<Integer,Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
