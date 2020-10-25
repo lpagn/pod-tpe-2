@@ -2,10 +2,13 @@ package reducers;
 
 import com.hazelcast.mapreduce.Reducer;
 import com.hazelcast.mapreduce.ReducerFactory;
+import models.Pair;
 
-public class reducerq2 implements ReducerFactory<String,Integer,Integer> {
+import java.util.Map;
+
+public class reducerq2 implements ReducerFactory<Map.Entry<String,String>,Integer,Integer> {
     @Override
-    public Reducer<Integer, Integer> newReducer(String s) {
+    public Reducer<Integer, Integer> newReducer( Map.Entry<String,String> s) {
         return new rq2();
     }
 
@@ -24,7 +27,6 @@ public class reducerq2 implements ReducerFactory<String,Integer,Integer> {
 
         @Override
         public Integer finalizeReduce() {
-            System.out.println(sum);
             return sum;
         }
     }
