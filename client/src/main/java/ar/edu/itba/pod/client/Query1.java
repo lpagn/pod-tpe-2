@@ -16,8 +16,6 @@ import models.Tree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reducers.ReducerQ1;
-
-import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -32,37 +30,35 @@ public class Query1 {
         final String inPath = System.getProperty("inPath");
         final String outPath = System.getProperty("outPath");
 
+        System.out.println(city);
+        System.out.println(addresses);
+        System.out.println(inPath);
+        System.out.println(outPath);
+
+        // Parsing addresses
+        String[] address = addresses.split(";");
+
         // Hazelcast config
         final ClientConfig ccfg = new ClientConfig()
                 .setGroupConfig(new GroupConfig()
                         .setName("g10")
                         .setPassword("g10"));
 
+        for(String addr : address){
+            ccfg.getNetworkConfig().addAddress(addr);
+        }
+
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
         // Neighbourhood file parsing
         final IMap<String, Integer> map = client.getMap("g10Q1Neighbourhood");
         map.clear();
-        URL neigh = Query1.class.getClassLoader().getResource("barriosBUE.csv");
-
-        if(neigh == null){
-            logger.error("Error loading neighbourhood file");
-            System.exit(-1);
-        }
-
-        map.putAll(Loader.loadNeighbourhoods(neigh.getFile(), "BUE"));
+        map.putAll(Loader.loadNeighbourhoods(inPath + "/barriosBUE.csv", city));
 
         // Tree file parsing
         final IMap<Integer,Tree> map2 = client.getMap("g10Q1Trees");
         map2.clear();
-        URL trees = Query1.class.getClassLoader().getResource("arbolesBUE.csv");
-
-        if(trees == null){
-            logger.error("Error loading tree file");
-            System.exit(-1);
-        }
-
-        map2.putAll(Loader.loadTrees(trees.getFile(), "BUE"));
+        map2.putAll(Loader.loadTrees(inPath + "/arbolesBUE.csv", city));
 
         // CompletableFuture object construction
         Job<Integer,Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
