@@ -18,10 +18,9 @@ public class Collator1Q4 implements Collator<Map.Entry<String, Integer>, List<Pa
     @Override
     public List<Pair<String,String>> collate( Iterable<Map.Entry<String, Integer>> values ) {
         List<Pair<String,String>> list= new LinkedList<>();
-        long sum = 0;
         for ( Map.Entry<String, Integer> entry1 : values ) {
             for (Map.Entry<String,Integer> entry2 : values){
-                if(entry1.getValue().equals(entry2.getValue()) && entry1.getKey().compareTo(entry2.getKey())<0 && entry1.getValue()>=min){
+                if(entry1.getKey().compareTo(entry2.getKey())<0 && entry1.getValue()>=min && entry2.getValue()>=min){
                     list.add(new Pair<>(entry1.getKey(), entry2.getKey()));
                 }
             }

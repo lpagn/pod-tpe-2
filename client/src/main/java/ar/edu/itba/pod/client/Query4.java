@@ -68,7 +68,9 @@ public class Query4 {
         // Attach a callback listener
         List<Pair<String,String>> result=new LinkedList<>();
         try {
-            while(!future.isDone());
+            while(!future.isDone()){
+                Thread.sleep(100);
+            }
             System.out.println("termine de esperar");
             result = future.get();
         }catch (Exception e){
