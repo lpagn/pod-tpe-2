@@ -1,0 +1,93 @@
+import ar.edu.itba.pod.client.utils.Loader;
+import collators.QueryOneCollator;
+import com.hazelcast.client.HazelcastClient;
+import com.hazelcast.client.config.ClientConfig;
+import com.hazelcast.config.Config;
+import com.hazelcast.config.GroupConfig;
+import com.hazelcast.config.MapConfig;
+import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.ICompletableFuture;
+import com.hazelcast.core.IMap;
+import com.hazelcast.mapreduce.Job;
+import com.hazelcast.mapreduce.KeyValueSource;
+import mappers.QueryOneMapper;
+import models.Tree;
+import org.junit.*;
+import reducers.QueryOneReducer;
+
+import java.net.URL;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
+public class QueryTest {
+
+    @BeforeClass
+    public static void init(){
+        Config config = new Config().setGroupConfig(
+                new GroupConfig().setName("g10").setPassword("g10"))
+                .setInstanceName("g10")
+                .addMapConfig(new MapConfig().setName("g10Q1Trees"))
+                .addMapConfig(new MapConfig().setName("g10Q1Neighbourhood"))
+                .addMapConfig(new MapConfig().setName("g10Q2Trees"))
+                .addMapConfig(new MapConfig().setName("g10Q3Trees"))
+                .addMapConfig(new MapConfig().setName("g10Q4Trees"))
+                .addMapConfig(new MapConfig().setName("g10Q5Trees"));
+        Hazelcast.newHazelcastInstance(config);
+    }
+
+    @Test
+    public void testQuery1() throws ExecutionException, InterruptedException {
+        // Hazelcast config
+        final ClientConfig ccfg = new ClientConfig()
+                .setGroupConfig(new GroupConfig()
+                        .setName("g10")
+                        .setPassword("g10"));
+
+        final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
+
+        // Neighbourhood file parsing
+        final IMap<String, Integer> map = client.getMap("g10Q1Neighbourhood");
+        map.clear();
+        URL neigh = QueryTest.class.getClassLoader().getResource("barriosBUEtest.csv");
+
+        if(neigh == null){
+            System.exit(-1);
+        }
+
+        map.putAll(Loader.loadNeighbourhoods(neigh.getFile(), "BUE"));
+
+        // Tree file parsing
+        final IMap<Integer, Tree> map2 = client.getMap("g10Q1Trees");
+        map2.clear();
+        URL trees = QueryTest.class.getClassLoader().getResource("arbolesBUEtest.csv");
+
+        if(trees == null){
+            System.exit(-1);
+        }
+
+        map2.putAll(Loader.loadTrees(trees.getFile(), "BUE"));
+
+        // CompletableFuture object construction
+        Job<Integer,Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
+        ICompletableFuture<Map<String,Double>> future = job
+                .mapper(new QueryOneMapper())
+                .reducer(new QueryOneReducer())
+                .submit(new QueryOneCollator(map));
+
+        // Wait 15s till future is done
+        try{ future.wait(15000);} catch (IllegalMonitorStateException ignored){}
+
+        // Results assertion
+        Map<String,Double> result = future.get();
+        for(Map.Entry<String,Double> entry : result.entrySet()){
+            Assert.assertEquals("1", entry.getKey());
+            Assert.assertEquals(0.3, entry.getValue(), 0.001);
+        }
+    }
+
+    @AfterClass
+    public static void tearDown(){
+        Hazelcast.shutdownAll();
+    }
+}
