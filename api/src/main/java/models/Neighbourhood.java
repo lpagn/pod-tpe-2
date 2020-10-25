@@ -1,6 +1,8 @@
 package models;
 
-public class Neighbourhood {
+import java.io.Serializable;
+
+public class Neighbourhood implements Serializable {
     String name;
     long population;
 
