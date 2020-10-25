@@ -1,6 +1,7 @@
 package ar.edu.itba.pod.client;
 
 import ar.edu.itba.pod.client.utils.Loader;
+import collators.collatorq3;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.config.GroupConfig;
@@ -8,12 +9,15 @@ import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.ICompletableFuture;
 import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Job;
+import com.hazelcast.mapreduce.JobCompletableFuture;
 import com.hazelcast.mapreduce.KeyValueSource;
 import mappers.mapperq3;
+import models.Pair;
 import models.Tree;
 import reducers.reducerq3;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -42,17 +46,19 @@ public class Query3 {
 
 
         Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map3));
-        ICompletableFuture<Map<String, Double>> future = job
+        JobCompletableFuture<List<Pair<String, Double>>> future = job
                 .mapper( new mapperq3() )
                 .reducer( new reducerq3() )
-                .submit();
+                .submit(new collatorq3());
 
         while(!future.isDone());
 
-        Map<String, Double> result = future.get();
+        List<Pair<String, Double>> result = future.get();
         //System.out.println(result);
 
-        result.forEach((key,value) -> System.out.println("Key = [" + key + "], Value = [" + value + "]"));
+        result.forEach((x)->System.out.println(x.getKey() + " " + x.getValue()));
+
+        //result.forEach((key,value) -> System.out.println("Key = [" + key + "], Value = [" + value + "]"));
 
 //        String s = QueryUtils.now() + " INFO [main] Query3 (Query3.java:xx) - Inicio de la lectura del archivo\n";
 //        System.out.println(s);
