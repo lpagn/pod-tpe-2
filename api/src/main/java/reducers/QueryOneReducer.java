@@ -4,22 +4,15 @@ import com.hazelcast.mapreduce.Reducer;
 import com.hazelcast.mapreduce.ReducerFactory;
 import models.Pair;
 
-public class QueryOneReducer implements ReducerFactory<Pair<String, Integer>, Integer, Pair<String,Double>> {
+public class QueryOneReducer implements ReducerFactory<String, Integer, Integer> {
 
     @Override
-    public Reducer<Integer, Pair<String,Double>> newReducer(Pair<String,Integer> stringIntegerPair) {
-        return new InnerQueryOneReducer(stringIntegerPair);
+    public Reducer<Integer,Integer> newReducer(String s) {
+        return new InnerQueryOneReducer();
     }
 
-    private static class InnerQueryOneReducer extends Reducer<Integer, Pair<String,Double>> {
-        private final String neighbourhood;
-        private final Integer population;
+    private static class InnerQueryOneReducer extends Reducer<Integer, Integer> {
         private Integer sum;
-
-        InnerQueryOneReducer(Pair<String,Integer> pair){
-            this.neighbourhood = pair.getKey();
-            this.population = pair.getValue();
-        }
 
         @Override
         public void beginReduce() {
@@ -32,8 +25,8 @@ public class QueryOneReducer implements ReducerFactory<Pair<String, Integer>, In
         }
 
         @Override
-        public Pair<String,Double> finalizeReduce() {
-            return new Pair<>(neighbourhood, (double) (sum/population));
+        public Integer finalizeReduce() {
+            return sum;
         }
     }
 

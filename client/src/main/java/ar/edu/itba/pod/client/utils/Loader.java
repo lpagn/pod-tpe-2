@@ -55,6 +55,7 @@ public class Loader {
 
         } catch (IllegalArgumentException ex){
             System.out.println("Error in Arguments");
+            System.out.println(ex.getMessage());
         } catch (IOException ex) {
             System.out.println("Errors Loading Trees");
             ex.printStackTrace();
