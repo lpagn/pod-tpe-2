@@ -1,5 +1,5 @@
 import ar.edu.itba.pod.client.utils.Loader;
-import collators.QueryOneCollator;
+import collators.CollatorQ1;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.config.Config;
@@ -11,10 +11,11 @@ import com.hazelcast.core.ICompletableFuture;
 import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Job;
 import com.hazelcast.mapreduce.KeyValueSource;
-import mappers.QueryOneMapper;
+import combiners.CombinerQ1;
+import mappers.MapperQ1;
 import models.Tree;
 import org.junit.*;
-import reducers.QueryOneReducer;
+import reducers.ReducerQ1;
 
 import java.net.URL;
 import java.util.Map;
@@ -71,9 +72,10 @@ public class QueryTest {
         // CompletableFuture object construction
         Job<Integer,Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
         ICompletableFuture<Map<String,Double>> future = job
-                .mapper(new QueryOneMapper())
-                .reducer(new QueryOneReducer())
-                .submit(new QueryOneCollator(map));
+                .mapper(new MapperQ1())
+                .combiner(new CombinerQ1())
+                .reducer(new ReducerQ1())
+                .submit(new CollatorQ1(map));
 
         // Wait 15s till future is done
         try{ future.wait(15000);} catch (IllegalMonitorStateException ignored){}

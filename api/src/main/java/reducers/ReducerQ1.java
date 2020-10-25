@@ -4,7 +4,7 @@ import com.hazelcast.mapreduce.Reducer;
 import com.hazelcast.mapreduce.ReducerFactory;
 import models.Pair;
 
-public class QueryOneReducer implements ReducerFactory<String, Integer, Integer> {
+public class ReducerQ1 implements ReducerFactory<String, Integer, Integer> {
 
     @Override
     public Reducer<Integer,Integer> newReducer(String s) {
@@ -21,7 +21,7 @@ public class QueryOneReducer implements ReducerFactory<String, Integer, Integer>
 
         @Override
         public void reduce(Integer i) {
-            sum++;
+            sum += i;
         }
 
         @Override

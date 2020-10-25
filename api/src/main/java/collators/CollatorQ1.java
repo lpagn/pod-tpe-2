@@ -5,10 +5,10 @@ import com.hazelcast.mapreduce.Collator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QueryOneCollator implements Collator<Map.Entry<String,Integer>, Map<String, Double>> {
+public class CollatorQ1 implements Collator<Map.Entry<String,Integer>, Map<String, Double>> {
     private final Map<String,Integer> neighbourhood;
 
-    public QueryOneCollator(Map<String,Integer> neighbourhood){
+    public CollatorQ1(Map<String,Integer> neighbourhood){
         this.neighbourhood = neighbourhood;
     }
 
@@ -17,6 +17,7 @@ public class QueryOneCollator implements Collator<Map.Entry<String,Integer>, Map
         Map<String,Double> toReturn = new HashMap<>();
 
         for(Map.Entry<String,Integer> entry : iterable){
+            System.out.printf("KEY = %s, VAL = %d\n", entry.getKey(), entry.getValue());
             toReturn.put(entry.getKey(), (double) entry.getValue() / neighbourhood.get(entry.getKey()));
         }
 
