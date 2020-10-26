@@ -8,7 +8,7 @@ import models.Tree;
 import java.util.AbstractMap;
 import java.util.Map;
 
-public class mapperq2 implements Mapper<Integer, Tree, Map.Entry<String, String>,Integer> {
+public class MapperQ2 implements Mapper<Integer, Tree, Map.Entry<String, String>,Integer> {
 
     @Override
     public void map(Integer integer, Tree tree, Context<Map.Entry<String,String>, Integer> context) {

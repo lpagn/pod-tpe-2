@@ -5,13 +5,13 @@ import com.hazelcast.mapreduce.CombinerFactory;
 
 import java.util.Map;
 
-public class combinerq2 implements CombinerFactory<Map.Entry<String,String>,Integer,Integer> {
+public class CombinerFactoryQ2 implements CombinerFactory<Map.Entry<String,String>,Integer,Integer> {
     @Override
     public Combiner<Integer, Integer> newCombiner(Map.Entry<String, String> stringStringEntry) {
-        return new cq2();
+        return new CombinerQ2();
     }
 
-    private class cq2 extends Combiner<Integer,Integer>{
+    private class CombinerQ2 extends Combiner<Integer,Integer>{
         private volatile int sum = 0;
         @Override
         public synchronized void combine( Integer value ) {

@@ -6,13 +6,13 @@ import models.Pair;
 
 import java.util.Map;
 
-public class reducerq2 implements ReducerFactory<Map.Entry<String,String>,Integer,Integer> {
+public class ReducerFactoryQ2 implements ReducerFactory<Map.Entry<String,String>,Integer,Integer> {
     @Override
     public Reducer<Integer, Integer> newReducer( Map.Entry<String,String> s) {
-        return new rq2();
+        return new ReducerQ2();
     }
 
-    private class rq2 extends Reducer<Integer,Integer>{
+    private class ReducerQ2 extends Reducer<Integer,Integer>{
         private volatile int sum;
 
         @Override
