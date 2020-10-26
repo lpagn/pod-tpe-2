@@ -21,7 +21,7 @@ public class reducerq2 implements ReducerFactory<Map.Entry<String,String>,Intege
         }
 
         @Override
-        public void reduce(Integer i) {
+        public synchronized void reduce(Integer i) {
             sum+=i;
         }
 

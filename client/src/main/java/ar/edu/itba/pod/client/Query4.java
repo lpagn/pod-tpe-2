@@ -69,6 +69,10 @@ public class Query4 {
         }
         map.putAll(Loader.loadNeighToTreeName(arboles.getFile(),city));
 
+        final IMap<Pair<Integer,String>, String> map3 = client.getMap("g10Q1NeighToTreeName");
+        map3.clear();
+        arboles = Query1.class.getClassLoader().getResource("arbolesBUE.csv");
+        map3.putAll(Loader.loadNeighToTreeName(arboles.getFile(),"BUE"));
 
 
         String t = QueryUtils.now() + " INFO [main] Query4 (Query4.java:xx) - Fin de la lectura del archivo\n";

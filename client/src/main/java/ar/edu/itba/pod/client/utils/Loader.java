@@ -24,7 +24,7 @@ public class Loader {
             try {
                 CSVParser csvParser = new CSVParser(
                         new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)),
-                        CSVFormat.newFormat(';').withFirstRecordAsHeader()
+                        CSVFormat.newFormat(';').withFirstRecordAsHeader().withIgnoreSurroundingSpaces()
                 );
                 csvParser.forEach(csvRecord -> {
                     map.putIfAbsent(csvRecord.get(0), Integer.valueOf(csvRecord.get(1)));
@@ -34,7 +34,7 @@ public class Loader {
             }
         }
 
-        else{
+        else if(city.compareTo("VAN") == 0){
             try {
                 CSVParser csvParser = new CSVParser(
                         new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)),
@@ -46,6 +46,9 @@ public class Loader {
             } catch (IOException ex) {
                 logger.error("Error Loading Neighbourhoods");
             }
+        }
+        else{
+            throw new RuntimeException("Invalid city");
         }
 
         return map;
@@ -74,7 +77,7 @@ public class Loader {
             }
         }
 
-        else{
+        else if(city.compareTo("VAN") == 0){
             try {
                 CSVParser csvParser = new CSVParser(
                         new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)),
@@ -92,6 +95,9 @@ public class Loader {
             } catch (IOException ex) {
                 logger.error("Errors Loading Trees");
             }
+        }
+        else{
+            throw new RuntimeException("Invalid city");
         }
 
         return map;
