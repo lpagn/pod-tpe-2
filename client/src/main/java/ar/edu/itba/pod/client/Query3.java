@@ -7,7 +7,6 @@ import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.config.GroupConfig;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.ICompletableFuture;
 import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Job;
 import com.hazelcast.mapreduce.JobCompletableFuture;
@@ -16,21 +15,18 @@ import mappers.mapperq3;
 import models.Pair;
 import models.Tree;
 import reducers.reducerq3;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class Query3 {
 
     static final String QUERY= "/query3.csv";
-    static final String TIME = "/time3.csv";
+    static final String TIME = "/time3.txt";
 
     public static void main(String [] args) throws ExecutionException, InterruptedException, IOException {
         System.out.println("Query 3");
@@ -81,7 +77,6 @@ public class Query3 {
         timeStampWriter.append(v);
 
         List<Pair<String, Double>> result = future.get();
-        //System.out.println(result);
 
         result.forEach((x)->System.out.println(x.getKey() + " " + x.getValue()));
 
