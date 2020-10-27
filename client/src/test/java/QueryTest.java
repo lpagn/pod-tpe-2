@@ -1,5 +1,7 @@
 import ar.edu.itba.pod.client.utils.Loader;
+import ar.edu.itba.pod.client.utils.QueryUtils;
 import collators.CollatorQ1;
+import collators.collatorq2;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.config.Config;
@@ -10,22 +12,33 @@ import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.ICompletableFuture;
 import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Job;
+import com.hazelcast.mapreduce.JobCompletableFuture;
 import com.hazelcast.mapreduce.KeyValueSource;
+import combiners.CombinerFactoryQ2;
 import combiners.CombinerQ1;
 import mappers.MapperQ1;
+import mappers.MapperQ2;
 import models.Tree;
 import org.junit.*;
+import reducers.ReducerFactoryQ2;
 import reducers.ReducerQ1;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class QueryTest {
+    private static HazelcastInstance client;
 
     @BeforeClass
     public static void init(){
+        // Hazelcast cluster
         Config config = new Config().setGroupConfig(
                 new GroupConfig().setName("g10").setPassword("g10"))
                 .setInstanceName("g10")
@@ -36,18 +49,18 @@ public class QueryTest {
                 .addMapConfig(new MapConfig().setName("g10Q4Trees"))
                 .addMapConfig(new MapConfig().setName("g10Q5Trees"));
         Hazelcast.newHazelcastInstance(config);
-    }
 
-    @Test
-    public void testQuery1() throws ExecutionException, InterruptedException {
-        // Hazelcast config
+        // Hazelcast client
         final ClientConfig ccfg = new ClientConfig()
                 .setGroupConfig(new GroupConfig()
                         .setName("g10")
                         .setPassword("g10"));
 
-        final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
+        client = HazelcastClient.newHazelcastClient(ccfg);
+    }
 
+    @Test
+    public void testQuery1() throws ExecutionException, InterruptedException {
         // Neighbourhood file parsing
         final IMap<String, Integer> map = client.getMap("g10Q1Neighbourhood");
         map.clear();
