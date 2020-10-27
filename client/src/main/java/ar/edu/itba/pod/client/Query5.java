@@ -20,19 +20,36 @@ import models.Tree;
 import reducers.reducerq3;
 import reducers.reducerq5;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 public class Query5 {
-    public static void main(String [] args) throws ExecutionException, InterruptedException{
+    public static void main(String [] args) throws ExecutionException, InterruptedException, IOException {
         System.out.println("Query 5");
         final String city = System.getProperty("city");
         final String addresses = System.getProperty("addresses");
         final String inPath = System.getProperty("inPath");
-        final String outPath = System.getProperty("outPath");
+        /*final*/ String outPath = System.getProperty("outPath");
+
+        //Defaults
+        outPath = "/Users/luciopagni/Desktop/pod-tpe-2";
+
+        System.out.println(city + " " + addresses+ " " + inPath + " " + outPath);
+
+        Files.deleteIfExists(Paths.get(outPath+"/resultQuery5.csv"));
+        Files.deleteIfExists(Paths.get(outPath+"/timeStampsQuery5.csv"));
+
+        FileWriter csvWriter = new FileWriter(new File(outPath+"/resultQuery5.csv"));
+        FileWriter timeStampWriter = new FileWriter(new File(outPath+"/timeStampsQuery5.txt"));
+
 
         final ClientConfig ccfg = new ClientConfig()
                 .setGroupConfig(new GroupConfig()
@@ -44,8 +61,17 @@ public class Query5 {
         final IMap<Integer, Tree> map5 = client.getMap("g10Q5Trees");
         map5.clear();
         URL arboles = Query3.class.getClassLoader().getResource("arbolesBUE.csv");
+
+        String s = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Inicio de la lectura del archivo\n";
+        timeStampWriter.append(s);
+
         map5.putAll(Loader.loadTrees(arboles.getFile(),"BUE"));
 
+        String t = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Fin de la lectura del archivo\n";
+        timeStampWriter.append(t);
+
+        String u = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Inicio del trabajo map/reduce\n";
+        timeStampWriter.append(u);
 
         Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map5));
         JobCompletableFuture<List<Q5ans>> future = job
@@ -55,21 +81,23 @@ public class Query5 {
 
         while(!future.isDone());
 
+        String v = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Fin del trabajo map/reduce\n";
+        timeStampWriter.append(v);
+
         List<Q5ans> result = future.get();
 
         result.forEach(System.out::println);
 
-//        System.out.println(city + " " + addresses+ " " + inPath + " " + outPath);
-//        String s = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Inicio de la lectura del archivo\n";
-//        System.out.println(s);
-//
-//        String t = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Fin de la lectura del archivo\n";
-//        System.out.println(t);
-//
-//        String u = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Inicio del trabajo map/reduce\n";
-//        System.out.println(u);
-//
-//        String v = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Fin del trabajo map/reduce\n";
-//        System.out.println(v);
+        csvWriter.append("Grupo;Barrio A;Barrio B\n");
+        result.forEach((element) -> {
+            try {
+                csvWriter.append(element.toString()+"\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        csvWriter.close();
+        timeStampWriter.close();
+        System.exit(0);
     }
 }
