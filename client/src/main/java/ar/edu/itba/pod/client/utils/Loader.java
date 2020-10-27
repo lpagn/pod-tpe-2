@@ -104,8 +104,8 @@ public class Loader {
         return map;
     }
 
-    public static Map<Pair<Integer,String>,String> loadNeighToTreeName(String file, String city) {
-        Map<Pair<Integer,String>, String> map = new HashMap<>();
+    public static Map<Map.Entry<Integer,String>,String> loadNeighToTreeName(String file, String city) {
+        Map<Map.Entry<Integer,String>, String> map = new HashMap<>();
 
         if(city.compareTo("BUE") == 0){
             try {
@@ -115,7 +115,7 @@ public class Loader {
 
                 );
                 csvParser.forEach(csvRecord ->
-                        map.putIfAbsent(new Pair<>(Integer.valueOf(csvRecord.get(0)),csvRecord.get(7)),
+                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(Integer.valueOf(csvRecord.get(0)),csvRecord.get(7)),
                                 csvRecord.get(2))
                 );
 
@@ -134,7 +134,7 @@ public class Loader {
 
                 );
                 csvParser.forEach(csvRecord ->
-                        map.putIfAbsent(new Pair<>(Integer.valueOf(csvRecord.get(0)),csvRecord.get(6)),
+                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(Integer.valueOf(csvRecord.get(0)),csvRecord.get(6)),
                                 csvRecord.get(12))
                 );
 

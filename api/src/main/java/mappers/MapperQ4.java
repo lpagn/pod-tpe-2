@@ -5,10 +5,12 @@ import com.hazelcast.mapreduce.Mapper;
 import models.Pair;
 import models.Tree;
 
-public class MapperQ4 implements Mapper<Pair<Integer,String>, String, String,Integer> {
+import java.util.Map;
+
+public class MapperQ4 implements Mapper<Map.Entry<Integer,String>, String, String,Integer> {
 
     @Override
-    public void map(Pair<Integer,String> pair, String neigh, Context<String, Integer> context) {
+    public void map(Map.Entry<Integer,String> pair, String neigh, Context<String, Integer> context) {
         context.emit(neigh.toLowerCase(), 1);
     }
 }

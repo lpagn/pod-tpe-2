@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class Query4 {
@@ -49,7 +50,7 @@ public class Query4 {
         String s = QueryUtils.now() + " INFO [main] Query4 (Query4.java:xx) - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
 
-        final IMap<Pair<Integer,String>, String> map = client.getMap("g10Q4NeighToTreeName");
+        final IMap<Map.Entry<Integer,String>, String> map = client.getMap("g10Q4NeighToTreeName");
         map.clear();
 
         map.putAll(Loader.loadNeighToTreeName(inPath + "/arboles" + city + ".csv", city));
@@ -61,9 +62,9 @@ public class Query4 {
         timeStampWriter.append(u);
 
         JobTracker jobTracker = client.getJobTracker("g10q4");
-        final KeyValueSource<Pair<Integer,String>, String> source = KeyValueSource.fromMap(map);
-        Job<Pair<Integer,String>, String> job = jobTracker.newJob(source);
-        ICompletableFuture<List<Pair<String,String>>> future = job
+        final KeyValueSource<Map.Entry<Integer,String>, String> source = KeyValueSource.fromMap(map);
+        Job<Map.Entry<Integer,String>, String> job = jobTracker.newJob(source);
+        ICompletableFuture<List<Map.Entry<String,String>>> future = job
                 .keyPredicate(new KeyPredicateQ4(name))
                 .mapper( new MapperQ4())
                 .combiner( new CombinerFactoryQ4() )
@@ -72,7 +73,7 @@ public class Query4 {
         // Attach a callback listener
 
 
-        List<Pair<String,String>> result = future.get();
+        List<Map.Entry<String,String>> result = future.get();
 
         String v = QueryUtils.now() + " INFO [main] Query4 (Query4.java:xx) - Fin del trabajo map/reduce\n";
         timeStampWriter.append(v);
