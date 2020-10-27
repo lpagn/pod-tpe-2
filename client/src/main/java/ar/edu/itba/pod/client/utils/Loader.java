@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 import models.Pair;
@@ -24,7 +25,7 @@ public class Loader {
             try {
                 CSVParser csvParser = new CSVParser(
                         new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)),
-                        CSVFormat.newFormat(';').withFirstRecordAsHeader().withIgnoreSurroundingSpaces()
+                        CSVFormat.newFormat(';').withFirstRecordAsHeader()
                 );
                 csvParser.forEach(csvRecord -> {
                     map.putIfAbsent(csvRecord.get(0), Integer.valueOf(csvRecord.get(1)));
@@ -135,6 +136,50 @@ public class Loader {
                 csvParser.forEach(csvRecord ->
                         map.putIfAbsent(new Pair<>(Integer.valueOf(csvRecord.get(0)),csvRecord.get(6)),
                                 csvRecord.get(12))
+                );
+
+            } catch (IllegalArgumentException ex){
+                logger.error("Error in Arguments");
+            } catch (IOException ex) {
+                logger.error("Errors Loading Trees");
+            }
+        }
+
+        return map;
+    }
+
+    public static Map<Map.Entry<Integer,String>,Tree> loadNeighAndTree(String file, String city) {
+        Map<Map.Entry<Integer,String>, Tree> map = new HashMap<>();
+
+        if(city.compareTo("BUE") == 0){
+            try {
+                CSVParser csvParser = new CSVParser(
+                        new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)),
+                        CSVFormat.newFormat(';').withFirstRecordAsHeader()
+
+                );
+                csvParser.forEach(csvRecord ->
+                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(Integer.valueOf(csvRecord.get(0)),csvRecord.get(2)),
+                                new Tree(csvRecord.get(2), csvRecord.get(4), csvRecord.get(7), Double.parseDouble(csvRecord.get(11))))
+                );
+
+            } catch (IllegalArgumentException ex){
+                logger.error("Error in Arguments");
+            } catch (IOException ex) {
+                logger.error("Errors Loading Trees");
+            }
+        }
+
+        else{
+            try {
+                CSVParser csvParser = new CSVParser(
+                        new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)),
+                        CSVFormat.newFormat(';').withFirstRecordAsHeader()
+
+                );
+                csvParser.forEach(csvRecord ->
+                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(Integer.valueOf(csvRecord.get(0)),csvRecord.get(12)),
+                                new Tree(csvRecord.get(12), csvRecord.get(11), csvRecord.get(6), Double.parseDouble(csvRecord.get(15))))
                 );
 
             } catch (IllegalArgumentException ex){

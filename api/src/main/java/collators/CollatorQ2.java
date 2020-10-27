@@ -1,15 +1,13 @@
 package collators;
 
 import com.hazelcast.mapreduce.Collator;
-import models.Pair;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class collatorq2 implements Collator<Map.Entry<Map.Entry<String,String>,Integer>, Set<Map.Entry<String,String>>> {
+public class CollatorQ2 implements Collator<Map.Entry<Map.Entry<String,String>,Integer>, Set<Map.Entry<String,String>>> {
 
     int min;
-    public collatorq2(int min){
+    public CollatorQ2(int min){
         this.min = min;
     }
 

@@ -2,7 +2,7 @@ package ar.edu.itba.pod.client;
 
 import ar.edu.itba.pod.client.utils.Loader;
 import ar.edu.itba.pod.client.utils.QueryUtils;
-import collators.collatorq2;
+import collators.CollatorQ2;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.config.GroupConfig;
@@ -14,6 +14,7 @@ import com.hazelcast.mapreduce.KeyValueSource;
 import combiners.CombinerFactoryQ2;
 import mappers.MapperQ2;
 import models.Tree;
+import predicate.KeyPredicateQ2;
 import reducers.ReducerFactoryQ2;
 
 import java.io.File;
@@ -34,18 +35,21 @@ public class Query2 {
 
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
-        final IMap<Integer, Tree> map = client.getMap("g10Q2Trees");
-        map.clear();
+        final IMap<Map.Entry<Integer,String>, Tree> trees = client.getMap("g10Q2Trees");
+        trees.clear();
+
+        final IMap<String,Integer> neighs = client.getMap("g10Q2Neighbourhood");
+        neighs.clear();
 
         final String city = System.getProperty("city");
         final String addresses = System.getProperty("addresses");
         final String inPath = System.getProperty("inPath");
         final String outPath = System.getProperty("outPath");
         final String min = System.getProperty("min");
-        String[] address = addresses.split(";");
+//        String[] address = addresses.split(";");
 
 
-        System.out.println(city + " " + address+ " " + inPath + " " + outPath + " " + min);
+//        System.out.println(city + " " + address+ " " + inPath + " " + outPath + " " + min);
 
         Files.deleteIfExists(Paths.get(outPath+"/timeStamps.csv"));
         Files.deleteIfExists(Paths.get(outPath+"/result.csv"));
@@ -55,18 +59,20 @@ public class Query2 {
 
         String s = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
-        map.putAll(Loader.loadTrees(inPath + "/arboles" + city + ".csv", city));
+        trees.putAll(Loader.loadNeighAndTree(inPath + "/arboles" + city + ".csv", city));
+        neighs.putAll(Loader.loadNeighbourhoods(inPath + "/barrios" + city + ".csv", city));
         String t = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Fin de la lectura del archivo\n";
         timeStampWriter.append(t);
 
         String u = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Inicio del trabajo map/reduce\n";
         timeStampWriter.append(u);
-        Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map));
+        Job<Map.Entry<Integer,String>, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(trees));
         JobCompletableFuture<Set<Map.Entry<String, String>>> future = job
+                .keyPredicate(new KeyPredicateQ2(neighs.keySet()))
                 .mapper( new MapperQ2() )
                 .combiner(new CombinerFactoryQ2())
                 .reducer( new ReducerFactoryQ2() )
-                .submit(new collatorq2(10));
+                .submit(new CollatorQ2(Integer.parseInt(min)));
 
         Set<Map.Entry<String, String>> result = future.get();
         
