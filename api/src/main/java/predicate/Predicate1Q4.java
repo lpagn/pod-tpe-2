@@ -12,6 +12,6 @@ public class Predicate1Q4 implements KeyPredicate<Pair<Integer,String>> {
 
     @Override
     public boolean evaluate(Pair<Integer,String> s ) {
-        return s != null && s.getValue().contains(specie);
+        return s != null && s.getValue().toLowerCase().contains(specie.toLowerCase());
     }
 }

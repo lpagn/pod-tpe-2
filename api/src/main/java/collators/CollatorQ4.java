@@ -3,17 +3,15 @@ package collators;
 import com.hazelcast.mapreduce.Collator;
 import models.Pair;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class Collator1Q4 implements Collator<Map.Entry<String, Integer>, List<Pair<String,String>>> {
+public class CollatorQ4 implements Collator<Map.Entry<String, Integer>, List<Pair<String,String>>> {
     static int min;
 
-    public Collator1Q4(int min){
-        Collator1Q4.min =min;
+    public CollatorQ4(int min){
+        CollatorQ4.min =min;
     }
 
     @Override
