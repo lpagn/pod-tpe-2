@@ -1,9 +1,9 @@
 package models;
 
 public class Q5ans {
-    int group;
-    String n1;
-    String n2;
+    public int group;
+    public String n1;
+    public String n2;
     public Q5ans(int group, String n1, String n2){ ;
         this.group = group;
         this.n1 = n1;
