@@ -2,15 +2,14 @@ package reducers;
 
 import com.hazelcast.mapreduce.Reducer;
 import com.hazelcast.mapreduce.ReducerFactory;
-import models.Pair;
 
-public class reducerq3 implements ReducerFactory<String,Double,Double> {
+public class ReducerFactoryQ3 implements ReducerFactory<String,Double,Double> {
     @Override
     public Reducer<Double,Double> newReducer(String s) {
-        return new rq3();
+        return new ReducerQ3();
     }
 
-    private class rq3 extends Reducer<Double,Double>{
+    private class ReducerQ3 extends Reducer<Double,Double>{
         private volatile double sumDiameters;
         private volatile double sumTotals;
 

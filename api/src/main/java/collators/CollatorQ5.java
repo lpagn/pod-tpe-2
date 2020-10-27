@@ -7,8 +7,8 @@ import models.Q5ans;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class collatorq5 implements Collator<Map.Entry<String, Integer>, List<Q5ans>> {
-    public collatorq5(){
+public class CollatorQ5 implements Collator<Map.Entry<String, Integer>, List<Q5ans>> {
+    public CollatorQ5(){
     }
 
     @Override

@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class collatorq3 implements Collator<Map.Entry<String, Double>, List<Pair<String,Double>>> {
+public class CollatorQ3 implements Collator<Map.Entry<String, Double>, List<Pair<String,Double>>> {
     int N;
-    public collatorq3(int N){
+    public CollatorQ3(int N){
         this.N = N;
     }
 

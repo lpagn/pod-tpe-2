@@ -5,9 +5,7 @@ import ar.edu.itba.pod.client.utils.QueryUtils;
 import collators.CollatorQ4;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
-import com.hazelcast.client.config.ClientNetworkConfig;
 import com.hazelcast.client.config.XmlClientConfigBuilder;
-import com.hazelcast.config.GroupConfig;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.ICompletableFuture;
 import com.hazelcast.core.IMap;
@@ -17,8 +15,8 @@ import mappers.MapperQ4;
 import models.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import predicate.Predicate1Q4;
-import reducers.Reducer1Q4;
+import predicate.KeyPredicateQ4;
+import reducers.ReducerFactoryQ4;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -72,10 +70,10 @@ public class Query4 {
         final KeyValueSource<Pair<Integer,String>, String> source = KeyValueSource.fromMap(map);
         Job<Pair<Integer,String>, String> job = jobTracker.newJob(source);
         ICompletableFuture<List<Pair<String,String>>> future = job
-                .keyPredicate(new Predicate1Q4(name))
+                .keyPredicate(new KeyPredicateQ4(name))
                 .mapper( new MapperQ4())
                 .combiner( new CombinerFactoryQ4() )
-                .reducer( new Reducer1Q4())
+                .reducer( new ReducerFactoryQ4())
                 .submit( new CollatorQ4(min));
         // Attach a callback listener
 

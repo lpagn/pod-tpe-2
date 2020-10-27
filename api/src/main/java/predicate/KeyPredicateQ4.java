@@ -3,10 +3,10 @@ package predicate;
 import com.hazelcast.mapreduce.KeyPredicate;
 import models.Pair;
 
-public class Predicate1Q4 implements KeyPredicate<Pair<Integer,String>> {
+public class KeyPredicateQ4 implements KeyPredicate<Pair<Integer,String>> {
     String specie;
 
-    public Predicate1Q4(String specie){
+    public KeyPredicateQ4(String specie){
         this.specie=specie;
     }
 

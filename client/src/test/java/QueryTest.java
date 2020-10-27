@@ -15,7 +15,7 @@ import combiners.CombinerFactoryQ1;
 import mappers.MapperQ1;
 import models.Tree;
 import org.junit.*;
-import reducers.ReducerQ1;
+import reducers.ReducerFactoryQ1;
 
 import java.net.URL;
 import java.util.List;
@@ -77,7 +77,7 @@ public class QueryTest {
         ICompletableFuture<List<Map.Entry<String,Double>>> future = job
                 .mapper(new MapperQ1())
                 .combiner(new CombinerFactoryQ1())
-                .reducer(new ReducerQ1())
+                .reducer(new ReducerFactoryQ1())
                 .submit(new CollatorQ1(map));
 
         // Wait 15s till future is done

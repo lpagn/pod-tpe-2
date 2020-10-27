@@ -3,13 +3,13 @@ package reducers;
 import com.hazelcast.mapreduce.Reducer;
 import com.hazelcast.mapreduce.ReducerFactory;
 
-public class reducerq5 implements ReducerFactory<String,Integer,Integer> {
+public class ReducerFactoryQ5 implements ReducerFactory<String,Integer,Integer> {
     @Override
     public Reducer<Integer, Integer> newReducer(String s) {
-        return new rq5();
+        return new ReducerQ5();
     }
 
-    private class rq5 extends Reducer<Integer,Integer>{
+    private class ReducerQ5 extends Reducer<Integer,Integer>{
         private volatile int sum;
 
         @Override

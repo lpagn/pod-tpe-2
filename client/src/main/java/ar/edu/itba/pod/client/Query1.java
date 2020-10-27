@@ -6,7 +6,6 @@ import collators.CollatorQ1;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.client.config.XmlClientConfigBuilder;
-import com.hazelcast.config.GroupConfig;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.ICompletableFuture;
 import com.hazelcast.core.IMap;
@@ -17,7 +16,7 @@ import mappers.MapperQ1;
 import models.Tree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reducers.ReducerQ1;
+import reducers.ReducerFactoryQ1;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -78,7 +77,7 @@ public class Query1 {
         ICompletableFuture<List<Map.Entry<String,Double>>> future = job
                 .mapper(new MapperQ1())
                 .combiner(new CombinerFactoryQ1())
-                .reducer(new ReducerQ1())
+                .reducer(new ReducerFactoryQ1())
                 .submit(new CollatorQ1(map));
 
         // Wait 15s till future is done

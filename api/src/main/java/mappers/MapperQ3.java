@@ -5,7 +5,7 @@ import com.hazelcast.mapreduce.Mapper;
 import models.Pair;
 import models.Tree;
 
-public class mapperq3 implements Mapper<Integer, Tree, String,Double> {
+public class MapperQ3 implements Mapper<Integer, Tree, String,Double> {
 
     @Override
     public void map(Integer integer, Tree tree, Context<String,Double> context) {

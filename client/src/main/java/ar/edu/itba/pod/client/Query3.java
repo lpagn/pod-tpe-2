@@ -2,20 +2,19 @@ package ar.edu.itba.pod.client;
 
 import ar.edu.itba.pod.client.utils.Loader;
 import ar.edu.itba.pod.client.utils.QueryUtils;
-import collators.collatorq3;
+import collators.CollatorQ3;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.client.config.XmlClientConfigBuilder;
-import com.hazelcast.config.GroupConfig;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Job;
 import com.hazelcast.mapreduce.JobCompletableFuture;
 import com.hazelcast.mapreduce.KeyValueSource;
-import mappers.mapperq3;
+import mappers.MapperQ3;
 import models.Pair;
 import models.Tree;
-import reducers.reducerq3;
+import reducers.ReducerFactoryQ3;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -66,9 +65,9 @@ public class Query3 {
 
         Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map3));
         JobCompletableFuture<List<Pair<String, Double>>> future = job
-                .mapper( new mapperq3() )
-                .reducer( new reducerq3() )
-                .submit(new collatorq3(Integer.parseInt(n)));
+                .mapper( new MapperQ3() )
+                .reducer( new ReducerFactoryQ3() )
+                .submit(new CollatorQ3(Integer.parseInt(n)));
 
         while(!future.isDone());
 
