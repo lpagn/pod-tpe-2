@@ -54,10 +54,10 @@ public class Query1 {
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
         // File creation
-        Files.deleteIfExists(Paths.get(outPath + "/timeStamps.csv"));
-        Files.deleteIfExists(Paths.get(outPath + "/result.csv"));
-        FileWriter timeStampWriter = new FileWriter(new File(outPath + "/timeStamps.txt"));
-        FileWriter csvWriter = new FileWriter(new File(outPath + "/result.csv"));
+        Files.deleteIfExists(Paths.get(outPath + "/time1.csv"));
+        Files.deleteIfExists(Paths.get(outPath + "/query1.csv"));
+        FileWriter timeStampWriter = new FileWriter(new File(outPath + "/time1.txt"));
+        FileWriter csvWriter = new FileWriter(new File(outPath + "/query1.csv"));
 
         // Neighbourhood file parsing
         String s = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Inicio de la lectura del archivo\n";
@@ -93,6 +93,7 @@ public class Query1 {
         List<Map.Entry<String,Double>> result = future.get();
         String v = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Fin del trabajo map/reduce\n";
         timeStampWriter.append(v);
+        csvWriter.append("BARRIO;ARBOLES_POR_HABITANTE\n");
 
         for(Map.Entry<String,Double> entry : result){
             csvWriter.append(String.format("%s;%2.2f\n", entry.getKey(), entry.getValue()));
