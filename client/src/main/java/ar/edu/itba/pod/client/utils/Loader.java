@@ -71,9 +71,9 @@ public class Loader {
                                 new Tree(csvRecord.get(2), csvRecord.get(4), csvRecord.get(7), Double.parseDouble(csvRecord.get(11))))
                 );
 
-            } catch (IllegalArgumentException ex){
-                logger.error("Error in Arguments");
-            } catch (IOException ex) {
+            } catch (IllegalArgumentException ignored){}
+
+            catch (IOException ex) {
                 logger.error("Errors Loading Trees");
             }
         }
@@ -91,9 +91,9 @@ public class Loader {
                                 new Tree(csvRecord.get(12), csvRecord.get(11), csvRecord.get(6), Double.parseDouble(csvRecord.get(15))))
                 );
 
-            } catch (IllegalArgumentException ex){
-                logger.error("Error in Arguments");
-            } catch (IOException ex) {
+            } catch (IllegalArgumentException ignored){}
+
+            catch (IOException ex) {
                 logger.error("Errors Loading Trees");
             }
         }
@@ -119,9 +119,9 @@ public class Loader {
                                 csvRecord.get(2))
                 );
 
-            } catch (IllegalArgumentException ex){
-                logger.error("Error in Arguments");
-            } catch (IOException ex) {
+            } catch (IllegalArgumentException ignored){}
+
+            catch (IOException ex) {
                 logger.error("Errors Loading Trees");
             }
         }
@@ -138,9 +138,9 @@ public class Loader {
                                 csvRecord.get(12))
                 );
 
-            } catch (IllegalArgumentException ex){
-                logger.error("Error in Arguments");
-            } catch (IOException ex) {
+            } catch (IllegalArgumentException ignored){}
+
+            catch (IOException ex) {
                 logger.error("Errors Loading Trees");
             }
         }
@@ -163,9 +163,9 @@ public class Loader {
                                 new Tree(csvRecord.get(2), csvRecord.get(4), csvRecord.get(7), Double.parseDouble(csvRecord.get(11))))
                 );
 
-            } catch (IllegalArgumentException ex){
-                logger.error("Error in Arguments");
-            } catch (IOException ex) {
+            } catch (IllegalArgumentException ignored){}
+
+            catch (IOException ex) {
                 logger.error("Errors Loading Trees");
             }
         }
@@ -182,9 +182,9 @@ public class Loader {
                                 new Tree(csvRecord.get(12), csvRecord.get(11), csvRecord.get(6), Double.parseDouble(csvRecord.get(15))))
                 );
 
-            } catch (IllegalArgumentException ex){
-                logger.error("Error in Arguments");
-            } catch (IOException ex) {
+            } catch (IllegalArgumentException ignored){}
+
+            catch (IOException ex) {
                 logger.error("Errors Loading Trees");
             }
         }
