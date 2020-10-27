@@ -14,8 +14,6 @@ import com.hazelcast.mapreduce.KeyValueSource;
 import combiners.CombinerFactoryQ1;
 import mappers.MapperQ1;
 import models.Tree;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import reducers.ReducerFactoryQ1;
 
 import java.io.File;
@@ -29,7 +27,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class Query1 {
-    private static final Logger logger = LoggerFactory.getLogger(Query1.class);
 
     public static void main(String [] args) throws ExecutionException, InterruptedException, IOException {
 
@@ -91,7 +88,6 @@ public class Query1 {
 
         for(Map.Entry<String,Double> entry : result){
             csvWriter.append(String.format("%s;%2.2f\n", entry.getKey(), entry.getValue()));
-            logger.info(String.format("%s;%2.2f\n", entry.getKey(), entry.getValue()));
         }
 
         // Exit

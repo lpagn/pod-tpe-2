@@ -30,14 +30,11 @@ public class Query5 {
     static final String TIME = "/time5.txt";
 
     public static void main(String [] args) throws ExecutionException, InterruptedException, IOException {
-        System.out.println("Query 5");
-
         final String city = System.getProperty("city");
         final String addresses = System.getProperty("addresses");
         final String inPath = System.getProperty("inPath");
         final String outPath = System.getProperty("outPath");
 
-        System.out.println(city + " " + addresses+ " " + inPath + " " + outPath);
 
         Files.deleteIfExists(Paths.get(outPath+QUERY));
         Files.deleteIfExists(Paths.get(outPath+TIME));
@@ -76,7 +73,7 @@ public class Query5 {
 
         List<Q5ans> result = future.get();
 
-        result.forEach(System.out::println);
+//        result.forEach(System.out::println);
 
         csvWriter.append("Grupo;Barrio A;Barrio B\n");
         result.forEach((element) -> {

@@ -13,8 +13,6 @@ import com.hazelcast.mapreduce.*;
 import combiners.CombinerFactoryQ4;
 import mappers.MapperQ4;
 import models.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import predicate.KeyPredicateQ4;
 import reducers.ReducerFactoryQ4;
 
@@ -29,10 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 public class Query4 {
 
-    private static final Logger logger = LoggerFactory.getLogger(Query1.class);
-
     public static void main(String [] args) throws ExecutionException, InterruptedException, IOException {
-        System.out.println("Query 4");
         final String city = System.getProperty("city");
         final String addresses = System.getProperty("addresses");
         final String inPath = System.getProperty("inPath");
@@ -44,7 +39,6 @@ public class Query4 {
         ccfg.getNetworkConfig().setAddresses(Arrays.asList(addresses.split(";")));
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
-        System.out.println(city + " " + addresses+ " " + inPath + " " + outPath + " " + min);
 
         Files.deleteIfExists(Paths.get(outPath+"/time4.csv"));
         Files.deleteIfExists(Paths.get(outPath+"/query4.csv"));
