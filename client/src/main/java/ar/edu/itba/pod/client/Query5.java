@@ -18,7 +18,6 @@ import reducers.reducerq5;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -54,7 +53,7 @@ public class Query5 {
 
         final IMap<Integer, Tree> map5 = client.getMap("g10Q5Trees");
         map5.clear();
-        
+
         String s = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
 
