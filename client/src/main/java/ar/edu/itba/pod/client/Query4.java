@@ -13,8 +13,6 @@ import com.hazelcast.mapreduce.*;
 import combiners.CombinerFactoryQ4;
 import mappers.MapperQ4;
 import models.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import predicate.KeyPredicateQ4;
 import reducers.ReducerFactoryQ4;
 
@@ -25,14 +23,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class Query4 {
 
-    private static final Logger logger = LoggerFactory.getLogger(Query1.class);
-
     public static void main(String [] args) throws ExecutionException, InterruptedException, IOException {
-        System.out.println("Query 4");
         final String city = System.getProperty("city");
         final String addresses = System.getProperty("addresses");
         final String inPath = System.getProperty("inPath");
@@ -44,7 +40,6 @@ public class Query4 {
         ccfg.getNetworkConfig().setAddresses(Arrays.asList(addresses.split(";")));
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
-        System.out.println(city + " " + addresses+ " " + inPath + " " + outPath + " " + min);
 
         Files.deleteIfExists(Paths.get(outPath+"/time4.csv"));
         Files.deleteIfExists(Paths.get(outPath+"/query4.csv"));
@@ -55,7 +50,7 @@ public class Query4 {
         String s = QueryUtils.now() + " INFO [main] Query4 (Query4.java:xx) - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
 
-        final IMap<Pair<Integer,String>, String> map = client.getMap("g10Q4NeighToTreeName");
+        final IMap<Map.Entry<Integer,String>, String> map = client.getMap("g10Q4NeighToTreeName");
         map.clear();
 
         map.putAll(Loader.loadNeighToTreeName(inPath + "/arboles" + city + ".csv", city));
@@ -67,9 +62,9 @@ public class Query4 {
         timeStampWriter.append(u);
 
         JobTracker jobTracker = client.getJobTracker("g10q4");
-        final KeyValueSource<Pair<Integer,String>, String> source = KeyValueSource.fromMap(map);
-        Job<Pair<Integer,String>, String> job = jobTracker.newJob(source);
-        ICompletableFuture<List<Pair<String,String>>> future = job
+        final KeyValueSource<Map.Entry<Integer,String>, String> source = KeyValueSource.fromMap(map);
+        Job<Map.Entry<Integer,String>, String> job = jobTracker.newJob(source);
+        ICompletableFuture<List<Map.Entry<String,String>>> future = job
                 .keyPredicate(new KeyPredicateQ4(name))
                 .mapper( new MapperQ4())
                 .combiner( new CombinerFactoryQ4() )
@@ -78,7 +73,7 @@ public class Query4 {
         // Attach a callback listener
 
 
-        List<Pair<String,String>> result = future.get();
+        List<Map.Entry<String,String>> result = future.get();
 
         String v = QueryUtils.now() + " INFO [main] Query4 (Query4.java:xx) - Fin del trabajo map/reduce\n";
         timeStampWriter.append(v);

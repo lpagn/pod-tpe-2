@@ -30,15 +30,12 @@ public class Query3 {
     static final String TIME = "/time3.txt";
 
     public static void main(String [] args) throws ExecutionException, InterruptedException, IOException {
-        System.out.println("Query 3");
-
         final String city = System.getProperty("city");
         final String addresses = System.getProperty("addresses");
         final String inPath = System.getProperty("inPath");
         final String outPath = System.getProperty("outPath");
         final String n = System.getProperty("n");
 
-        System.out.println(city + " " + addresses+ " " + inPath + " " + outPath + " " + n);
 
         final ClientConfig ccfg = new XmlClientConfigBuilder(Query4.class.getClassLoader().getResourceAsStream("hazelcast.xml")).build();
         ccfg.getNetworkConfig().setAddresses(Arrays.asList(addresses.split(";")));
@@ -76,7 +73,7 @@ public class Query3 {
 
         List<Pair<String, Double>> result = future.get();
 
-        result.forEach((x)->System.out.println(x.getKey() + " " + x.getValue()));
+//        result.forEach((x)->System.out.println(x.getKey() + " " + x.getValue()));
 
         csvWriter.append("NOMBRE_CIENTIFICO;PROMEDIO_DIAMETRO\n");
         result.forEach((element) -> {

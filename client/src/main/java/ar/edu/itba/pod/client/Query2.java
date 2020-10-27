@@ -48,7 +48,6 @@ public class Query2 {
         final IMap<String, Integer> neighs = client.getMap("g10Q2Neighbourhood");
         neighs.clear();
 
-//        System.out.println(city + " " + address+ " " + inPath + " " + outPath + " " + min);
 
         Files.deleteIfExists(Paths.get(outPath+"/timeStamps.csv"));
         Files.deleteIfExists(Paths.get(outPath+"/result.csv"));
