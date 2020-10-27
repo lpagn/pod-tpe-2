@@ -2,10 +2,11 @@ package collators;
 
 import com.hazelcast.mapreduce.Collator;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class CollatorQ1 implements Collator<Map.Entry<String,Integer>, Map<String, Double>> {
+public class CollatorQ1 implements Collator<Map.Entry<String,Integer>, List<Map.Entry<String, Double>>> {
     private final Map<String,Integer> neighbourhood;
 
     public CollatorQ1(Map<String,Integer> neighbourhood){
@@ -13,14 +14,15 @@ public class CollatorQ1 implements Collator<Map.Entry<String,Integer>, Map<Strin
     }
 
     @Override
-    public Map<String, Double> collate(Iterable<Map.Entry<String, Integer>> iterable) {
-        Map<String,Double> toReturn = new HashMap<>();
+    public List<Map.Entry<String, Double>> collate(Iterable<Map.Entry<String, Integer>> iterable) {
+        Map<String,Double> beforeReturn = new TreeMap<>();
+        DecimalFormat df = new DecimalFormat("#.##");
 
         for(Map.Entry<String,Integer> entry : iterable){
-            System.out.printf("KEY = %s, VAL = %d\n", entry.getKey(), entry.getValue());
-            toReturn.put(entry.getKey(), (double) entry.getValue() / neighbourhood.get(entry.getKey()));
+            beforeReturn.put(entry.getKey(), Double.valueOf(df.format((double) entry.getValue() / neighbourhood.get(entry.getKey()))));
         }
 
-        return toReturn;
+        List<Map.Entry<String, Double>> toReturn = new ArrayList<>(beforeReturn.entrySet());
+        return toReturn.stream().sorted((o1, o2) -> o1.getValue().compareTo(o2.getValue()) == 0? o1.getKey().compareTo(o2.getKey()) : o1.getValue().compareTo(o2.getValue())).collect(Collectors.toList());
     }
 }

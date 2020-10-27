@@ -7,7 +7,8 @@ public class QueryUtils {
     public static String now(){
         LocalDateTime localDateTime = LocalDateTime.now();
         Instant instant = Instant.now();
+        String nano = String.format("%4d",localDateTime.getNano()).substring(0,4);
         return localDateTime.getDayOfMonth() + "/" + localDateTime.getMonth().getValue() + "/" + localDateTime.getYear() + " " + localDateTime.getHour()
-                + ":" + localDateTime.getMinute() + ":" + localDateTime.getSecond()+ ":" + localDateTime.getNano() + " ";
+                + ":" + localDateTime.getMinute() + ":" + localDateTime.getSecond()+ ":" + nano + " ";
     }
 }
