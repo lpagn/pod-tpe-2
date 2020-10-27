@@ -121,8 +121,10 @@ public class Loader {
 
             } catch (IllegalArgumentException ex){
                 logger.error("Error in Arguments");
+                logger.error(ex.getMessage());
             } catch (IOException ex) {
                 logger.error("Errors Loading Trees");
+                logger.error(ex.getMessage());
             }
         }
 
@@ -140,8 +142,10 @@ public class Loader {
 
             } catch (IllegalArgumentException ex){
                 logger.error("Error in Arguments");
+                logger.error(ex.getMessage());
             } catch (IOException ex) {
                 logger.error("Errors Loading Trees");
+                logger.error(ex.getMessage());
             }
         }
 
