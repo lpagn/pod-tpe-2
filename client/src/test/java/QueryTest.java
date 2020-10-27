@@ -18,6 +18,7 @@ import org.junit.*;
 import reducers.ReducerQ1;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -71,7 +72,7 @@ public class QueryTest {
 
         // CompletableFuture object construction
         Job<Integer,Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
-        ICompletableFuture<Map<String,Double>> future = job
+        ICompletableFuture<List<Map.Entry<String,Double>>> future = job
                 .mapper(new MapperQ1())
                 .combiner(new CombinerQ1())
                 .reducer(new ReducerQ1())
@@ -81,8 +82,8 @@ public class QueryTest {
         try{ future.wait(15000);} catch (IllegalMonitorStateException ignored){}
 
         // Results assertion
-        Map<String,Double> result = future.get();
-        for(Map.Entry<String,Double> entry : result.entrySet()){
+        List<Map.Entry<String,Double>> result = future.get();
+        for(Map.Entry<String,Double> entry : result){
             Assert.assertEquals("1", entry.getKey());
             Assert.assertEquals(0.3, entry.getValue(), 0.001);
         }
