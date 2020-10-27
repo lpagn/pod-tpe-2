@@ -28,25 +28,25 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class Query3 {
+
+    static final String QUERY= "/query3.csv";
+    static final String TIME = "/time3.csv";
+
     public static void main(String [] args) throws ExecutionException, InterruptedException, IOException {
         System.out.println("Query 3");
+
         final String city = System.getProperty("city");
         final String addresses = System.getProperty("addresses");
         final String inPath = System.getProperty("inPath");
-        /*final*/ String outPath = System.getProperty("outPath");
-        /*final*/ String n = System.getProperty("n");
-
-        //Defaults
-        n = "1";
-        outPath = "/Users/luciopagni/Desktop/pod-tpe-2";
+        final String outPath = System.getProperty("outPath");
+        final String n = System.getProperty("n");
 
         System.out.println(city + " " + addresses+ " " + inPath + " " + outPath + " " + n);
 
-        Files.deleteIfExists(Paths.get(outPath+"/resultQuery3.csv"));
-        Files.deleteIfExists(Paths.get(outPath+"/timeStamps.csv"));
-
-        FileWriter csvWriter = new FileWriter(new File(outPath+"/resultQuery3.csv"));
-        FileWriter timeStampWriter = new FileWriter(new File(outPath+"/timeStamps.txt"));
+        Files.deleteIfExists(Paths.get(outPath+QUERY));
+        Files.deleteIfExists(Paths.get(outPath+TIME));
+        FileWriter csvWriter = new FileWriter(new File(outPath+QUERY));
+        FileWriter timeStampWriter = new FileWriter(new File(outPath+TIME));
 
         final ClientConfig ccfg = new ClientConfig()
                 .setGroupConfig(new GroupConfig()
@@ -57,12 +57,11 @@ public class Query3 {
 
         final IMap<Integer, Tree> map3 = client.getMap("g10Q3Trees");
         map3.clear();
-        URL arboles = Query3.class.getClassLoader().getResource("arbolesBUE.csv");
 
         String s = QueryUtils.now() + " INFO [main] Query3 (Query3.java:xx) - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
 
-        map3.putAll(Loader.loadTrees(arboles.getFile(),"BUE"));
+        map3.putAll(Loader.loadTrees(inPath + "/arboles" + city + ".csv", city));
 
         String t = QueryUtils.now() + " INFO [main] Query3 (Query3.java:xx) - Fin de la lectura del archivo\n";
         timeStampWriter.append(t);
