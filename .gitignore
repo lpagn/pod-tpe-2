@@ -150,6 +150,5 @@ buildNumber.properties
 rmi-registry.sh
 run-client.sh
 run-server.sh
-run.sh
 testparams.sh
 
