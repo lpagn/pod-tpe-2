@@ -11,6 +11,7 @@ import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Job;
 import com.hazelcast.mapreduce.JobCompletableFuture;
 import com.hazelcast.mapreduce.KeyValueSource;
+import combiners.CombinerFactoryQ3;
 import mappers.MapperQ3;
 import models.Pair;
 import models.Tree;
@@ -63,6 +64,7 @@ public class Query3 {
         Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map3));
         JobCompletableFuture<List<Pair<String, Double>>> future = job
                 .mapper( new MapperQ3() )
+                .combiner( new CombinerFactoryQ3())
                 .reducer( new ReducerFactoryQ3() )
                 .submit(new CollatorQ3(Integer.parseInt(n)));
 
