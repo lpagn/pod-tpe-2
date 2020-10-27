@@ -44,7 +44,7 @@ public class Query1 {
         String[] address = addresses.split(";");
 
         // Hazelcast config
-        final ClientConfig ccfg = new XmlClientConfigBuilder("C:\\Users\\JUAN\\Documents\\pod-tpe-2\\client\\src\\main\\resources\\hazelcast.xml").build();
+        final ClientConfig ccfg = new XmlClientConfigBuilder(Query4.class.getClassLoader().getResourceAsStream("hazelcast.xml")).build();
         ccfg.getNetworkConfig().setAddresses(Arrays.asList(addresses.split(";")));
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 

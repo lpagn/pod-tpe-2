@@ -42,7 +42,7 @@ public class Query4 {
         final String name = System.getProperty("name");
         final int min= Integer.parseInt(System.getProperty("min"));
 
-        final ClientConfig ccfg = new XmlClientConfigBuilder("C:\\Users\\JUAN\\Documents\\pod-tpe-2\\client\\src\\main\\resources\\hazelcast.xml").build();
+        final ClientConfig ccfg = new XmlClientConfigBuilder(Query4.class.getClassLoader().getResourceAsStream("hazelcast.xml")).build();
         ccfg.getNetworkConfig().setAddresses(Arrays.asList(addresses.split(";")));
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
