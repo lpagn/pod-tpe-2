@@ -3,7 +3,7 @@ package combiners;
 import com.hazelcast.mapreduce.Combiner;
 import com.hazelcast.mapreduce.CombinerFactory;
 
-public class CombinerQ1 implements CombinerFactory<String,Integer,Integer> {
+public class CombinerFactoryQ1 implements CombinerFactory<String,Integer,Integer> {
 
     @Override
     public Combiner<Integer, Integer> newCombiner(String s) {

@@ -11,7 +11,7 @@ import com.hazelcast.core.ICompletableFuture;
 import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Job;
 import com.hazelcast.mapreduce.KeyValueSource;
-import combiners.CombinerQ1;
+import combiners.CombinerFactoryQ1;
 import mappers.MapperQ1;
 import models.Tree;
 import org.slf4j.Logger;
@@ -82,7 +82,7 @@ public class Query1 {
         Job<Integer,Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
         ICompletableFuture<List<Map.Entry<String,Double>>> future = job
                 .mapper(new MapperQ1())
-                .combiner(new CombinerQ1())
+                .combiner(new CombinerFactoryQ1())
                 .reducer(new ReducerQ1())
                 .submit(new CollatorQ1(map));
 
