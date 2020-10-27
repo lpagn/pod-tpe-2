@@ -3,7 +3,9 @@ package predicate;
 import com.hazelcast.mapreduce.KeyPredicate;
 import models.Pair;
 
-public class KeyPredicateQ4 implements KeyPredicate<Pair<Integer,String>> {
+import java.util.Map;
+
+public class KeyPredicateQ4 implements KeyPredicate<Map.Entry<Integer,String>> {
     String specie;
 
     public KeyPredicateQ4(String specie){
@@ -11,7 +13,7 @@ public class KeyPredicateQ4 implements KeyPredicate<Pair<Integer,String>> {
     }
 
     @Override
-    public boolean evaluate(Pair<Integer,String> s ) {
+    public boolean evaluate(Map.Entry<Integer,String> s ) {
         return s != null && s.getValue().toLowerCase().contains(specie.toLowerCase());
     }
 }
