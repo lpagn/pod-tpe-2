@@ -6,10 +6,10 @@ import com.hazelcast.mapreduce.CombinerFactory;
 public class CombinerFactoryQ4 implements CombinerFactory<String, Integer, Integer> {
     @Override
     public Combiner<Integer, Integer> newCombiner(String key ) {
-        return new Combiner1Q4();
+        return new CombinerQ4();
     }
 
-    private static class Combiner1Q4 extends Combiner<Integer, Integer> {
+    private static class CombinerQ4 extends Combiner<Integer, Integer> {
         private Integer sum = 0;
 
         @Override

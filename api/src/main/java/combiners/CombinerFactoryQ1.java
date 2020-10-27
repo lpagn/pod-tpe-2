@@ -7,10 +7,10 @@ public class CombinerFactoryQ1 implements CombinerFactory<String,Integer,Integer
 
     @Override
     public Combiner<Integer, Integer> newCombiner(String s) {
-        return new InnerCombiner();
+        return new CombinerQ1();
     }
 
-    private static class InnerCombiner extends Combiner<Integer, Integer>{
+    private static class CombinerQ1 extends Combiner<Integer, Integer>{
         private Integer sum = 0;
 
         @Override
