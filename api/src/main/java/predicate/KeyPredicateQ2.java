@@ -15,7 +15,6 @@ public class KeyPredicateQ2 implements KeyPredicate<Map.Entry<Integer,String>> {
 
     @Override
     public boolean evaluate(Map.Entry<Integer, String> key) {
-        System.out.println(key.getValue());
         return neighs.contains(key.getValue());
     }
 }
