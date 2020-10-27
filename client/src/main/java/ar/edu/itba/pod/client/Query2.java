@@ -5,6 +5,7 @@ import ar.edu.itba.pod.client.utils.QueryUtils;
 import collators.CollatorQ2;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
+import com.hazelcast.client.config.XmlClientConfigBuilder;
 import com.hazelcast.config.GroupConfig;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
@@ -22,24 +23,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 public class Query2 {
     public static void main(String [] args) throws ExecutionException, InterruptedException, IOException {
-        final ClientConfig ccfg = new ClientConfig()
-                .setGroupConfig(new GroupConfig()
-                        .setName("g10")
-                        .setPassword("g10"));
-
-        final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
-
-        final IMap<Map.Entry<Integer,String>, Tree> trees = client.getMap("g10Q2Trees");
-        trees.clear();
-
-        final IMap<String,Integer> neighs = client.getMap("g10Q2Neighbourhood");
-        neighs.clear();
 
         final String city = System.getProperty("city");
         final String addresses = System.getProperty("addresses");
@@ -48,6 +38,15 @@ public class Query2 {
         final String min = System.getProperty("min");
 //        String[] address = addresses.split(";");
 
+        final ClientConfig ccfg = new XmlClientConfigBuilder("C:\\Users\\JUAN\\Documents\\pod-tpe-2\\client\\src\\main\\resources\\hazelcast.xml").build();
+        ccfg.getNetworkConfig().setAddresses(Arrays.asList(addresses.split(";")));
+        final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
+
+        final IMap<Map.Entry<Integer, String>, Tree> trees = client.getMap("g10Q2Trees");
+        trees.clear();
+
+        final IMap<String, Integer> neighs = client.getMap("g10Q2Neighbourhood");
+        neighs.clear();
 
 //        System.out.println(city + " " + address+ " " + inPath + " " + outPath + " " + min);
 

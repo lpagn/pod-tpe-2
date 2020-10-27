@@ -5,6 +5,7 @@ import ar.edu.itba.pod.client.utils.QueryUtils;
 import collators.collatorq3;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
+import com.hazelcast.client.config.XmlClientConfigBuilder;
 import com.hazelcast.config.GroupConfig;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
@@ -20,6 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -39,17 +41,14 @@ public class Query3 {
 
         System.out.println(city + " " + addresses+ " " + inPath + " " + outPath + " " + n);
 
+        final ClientConfig ccfg = new XmlClientConfigBuilder("C:\\Users\\JUAN\\Documents\\pod-tpe-2\\client\\src\\main\\resources\\hazelcast.xml").build();
+        ccfg.getNetworkConfig().setAddresses(Arrays.asList(addresses.split(";")));
+        final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
+
         Files.deleteIfExists(Paths.get(outPath+QUERY));
         Files.deleteIfExists(Paths.get(outPath+TIME));
         FileWriter csvWriter = new FileWriter(new File(outPath+QUERY));
         FileWriter timeStampWriter = new FileWriter(new File(outPath+TIME));
-
-        final ClientConfig ccfg = new ClientConfig()
-                .setGroupConfig(new GroupConfig()
-                        .setName("g10")
-                        .setPassword("g10"));
-
-        final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
         final IMap<Integer, Tree> map3 = client.getMap("g10Q3Trees");
         map3.clear();

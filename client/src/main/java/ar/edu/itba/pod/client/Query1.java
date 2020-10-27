@@ -5,6 +5,7 @@ import ar.edu.itba.pod.client.utils.QueryUtils;
 import collators.CollatorQ1;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
+import com.hazelcast.client.config.XmlClientConfigBuilder;
 import com.hazelcast.config.GroupConfig;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.ICompletableFuture;
@@ -23,6 +24,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -42,15 +44,8 @@ public class Query1 {
         String[] address = addresses.split(";");
 
         // Hazelcast config
-        final ClientConfig ccfg = new ClientConfig()
-                .setGroupConfig(new GroupConfig()
-                        .setName("g10")
-                        .setPassword("g10"));
-
-        for(String addr : address){
-            ccfg.getNetworkConfig().addAddress(addr);
-        }
-
+        final ClientConfig ccfg = new XmlClientConfigBuilder("C:\\Users\\JUAN\\Documents\\pod-tpe-2\\client\\src\\main\\resources\\hazelcast.xml").build();
+        ccfg.getNetworkConfig().setAddresses(Arrays.asList(addresses.split(";")));
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
         // File creation
