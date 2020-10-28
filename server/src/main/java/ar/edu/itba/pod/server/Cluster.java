@@ -22,7 +22,6 @@ public class Cluster {
                 .addMapConfig(new MapConfig().setName("g10Q3Trees"))
                 .addMapConfig(new MapConfig().setName("g10Q4NeighToTreeName"))
                 .addMapConfig(new MapConfig().setName("g10Q5Trees"))
-                .addListConfig(new ListConfig().setName("g10Q2T"))
                 .addSetConfig(new SetConfig().setName("g10Q2N"));
 
 
