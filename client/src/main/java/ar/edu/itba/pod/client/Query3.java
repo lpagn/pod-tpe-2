@@ -87,6 +87,6 @@ public class Query3 {
         });
         csvWriter.close();
         timeStampWriter.close();
-        System.exit(0);
+        client.shutdown();
     }
 }

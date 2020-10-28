@@ -88,6 +88,6 @@ public class Query5 {
         });
         csvWriter.close();
         timeStampWriter.close();
-        System.exit(0);
+        client.shutdown();
     }
 }

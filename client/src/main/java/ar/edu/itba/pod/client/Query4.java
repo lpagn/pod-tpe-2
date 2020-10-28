@@ -92,7 +92,6 @@ public class Query4 {
         csvWriter.close();
         timeStampWriter.close();
         client.shutdown();
-        System.exit(0);
 //        JobTracker jobTracker = client.getJobTracker("g10q4");
 //        final KeyValueSource<Integer, Tree> source = KeyValueSource.fromMap(map2);
 //        Job<Integer, Tree> job = jobTracker.newJob(source);
