@@ -1,9 +1,6 @@
 package ar.edu.itba.pod.server;
 
-import com.hazelcast.config.Config;
-import com.hazelcast.config.GroupConfig;
-import com.hazelcast.config.MapConfig;
-import com.hazelcast.config.XmlConfigBuilder;
+import com.hazelcast.config.*;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 
@@ -24,7 +21,9 @@ public class Cluster {
                 .addMapConfig(new MapConfig().setName("g10Q2Neighbourhood"))
                 .addMapConfig(new MapConfig().setName("g10Q3Trees"))
                 .addMapConfig(new MapConfig().setName("g10Q4NeighToTreeName"))
-                .addMapConfig(new MapConfig().setName("g10Q5Trees"));
+                .addMapConfig(new MapConfig().setName("g10Q5Trees"))
+                .addSetConfig(new SetConfig().setName("g10Q2N"));
+
 
         Hazelcast.newHazelcastInstance(config);
 

@@ -5,9 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
 import models.Pair;
 import models.Tree;
 import org.apache.commons.csv.CSVFormat;
@@ -150,8 +149,8 @@ public class Loader {
         return map;
     }
 
-    public static Map<Map.Entry<String,String>,String> loadNeighAndTree(String file, String city) {
-        Map<Map.Entry<String,String>, String> map = new HashMap<>();
+    public static Map<String,Map.Entry<String,String>> loadNeighAndTree(String file, String city) {
+        Map<String,Map.Entry<String,String>> map = new HashMap<>();
 
         if(city.compareTo("BUE") == 0){
             try {
@@ -161,8 +160,8 @@ public class Loader {
 
                 );
                 csvParser.forEach(csvRecord ->
-                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(csvRecord.get(0),csvRecord.get(2)),
-                                csvRecord.get(4))
+                        map.putIfAbsent(csvRecord.get(0),new AbstractMap.SimpleEntry<>(csvRecord.get(2),csvRecord.get(4))
+                                )
                 );
 
             } catch (IllegalArgumentException ignored){}
@@ -180,8 +179,8 @@ public class Loader {
 
                 );
                 csvParser.forEach(csvRecord ->
-                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(csvRecord.get(0),csvRecord.get(12)),
-                                csvRecord.get(11))
+                        map.putIfAbsent(csvRecord.get(0),
+                                new AbstractMap.SimpleEntry<>(csvRecord.get(11),csvRecord.get(12)))
                 );
 
             } catch (IllegalArgumentException ignored){}
@@ -192,5 +191,84 @@ public class Loader {
         }
 
         return map;
+    }
+
+    public static List<Map.Entry<String,String>> loadNeighAndTreeList(String file, String city) {
+        List<Map.Entry<String,String>> list = new ArrayList<>();
+
+        if(city.compareTo("BUE") == 0){
+            try {
+                CSVParser csvParser = new CSVParser(
+                        new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)),
+                        CSVFormat.newFormat(';').withFirstRecordAsHeader()
+
+                );
+                csvParser.forEach(csvRecord ->
+                        list.add(new AbstractMap.SimpleEntry<>(csvRecord.get(2),csvRecord.get(4)))
+                );
+
+            } catch (IllegalArgumentException ignored){}
+
+            catch (IOException ex) {
+                logger.error("Errors Loading Trees");
+            }
+        }
+
+        else{
+            try {
+                CSVParser csvParser = new CSVParser(
+                        new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)),
+                        CSVFormat.newFormat(';').withFirstRecordAsHeader()
+
+                );
+                csvParser.forEach(csvRecord ->
+                        list.add(new AbstractMap.SimpleEntry<>(csvRecord.get(11),csvRecord.get(12)))
+                );
+
+            } catch (IllegalArgumentException ignored){}
+
+            catch (IOException ex) {
+                logger.error("Errors Loading Trees");
+            }
+        }
+
+        return list;
+    }
+
+    public static Set<String> loadNeighbourhoodsSet(String file, String city) {
+        Set<String> set = new HashSet<>();
+
+        if(city.compareTo("BUE") == 0){
+            try {
+                CSVParser csvParser = new CSVParser(
+                        new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)),
+                        CSVFormat.newFormat(';').withFirstRecordAsHeader()
+                );
+                csvParser.forEach(csvRecord -> {
+                    set.add(csvRecord.get(0));
+                });
+            } catch (IOException ex) {
+                logger.error("Error Loading Neighbourhoods");
+            }
+        }
+
+        else if(city.compareTo("VAN") == 0){
+            try {
+                CSVParser csvParser = new CSVParser(
+                        new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)),
+                        CSVFormat.newFormat(';').withFirstRecordAsHeader()
+                );
+                csvParser.forEach(csvRecord -> {
+                    set.add(csvRecord.get(0));
+                });
+            } catch (IOException ex) {
+                logger.error("Error Loading Neighbourhoods");
+            }
+        }
+        else{
+            throw new RuntimeException("Invalid city");
+        }
+
+        return set;
     }
 }

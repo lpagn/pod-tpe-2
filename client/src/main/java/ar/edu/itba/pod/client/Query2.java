@@ -8,6 +8,7 @@ import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.client.config.XmlClientConfigBuilder;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
+import com.hazelcast.core.ISet;
 import com.hazelcast.mapreduce.Job;
 import com.hazelcast.mapreduce.JobCompletableFuture;
 import com.hazelcast.mapreduce.KeyValueSource;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -40,10 +42,10 @@ public class Query2 {
         ccfg.getNetworkConfig().setAddresses(Arrays.asList(addresses.split(";")));
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
-        final IMap<Map.Entry<String, String>, String> trees = client.getMap("g10Q2Trees");
+        final IMap<String,Map.Entry<String, String>> trees = client.getMap("g10Q2Trees");
         trees.clear();
 
-        final IMap<String, Integer> neighs = client.getMap("g10Q2Neighbourhood");
+        final ISet<String> neighs = client.getSet("g10Q2N");
         neighs.clear();
 
 
@@ -56,16 +58,17 @@ public class Query2 {
         String s = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
         trees.putAll(Loader.loadNeighAndTree(inPath + "/arboles" + city + ".csv", city));
-        neighs.putAll(Loader.loadNeighbourhoods(inPath + "/barrios" + city + ".csv", city));
+        neighs.addAll(Loader.loadNeighbourhoodsSet(inPath + "/barrios" + city + ".csv", city));
+
+        Set<String> n = new HashSet<>(neighs);
         String t = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Fin de la lectura del archivo\n";
         timeStampWriter.append(t);
 
         String u = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Inicio del trabajo map/reduce\n";
         timeStampWriter.append(u);
-        Job<Map.Entry<String,String>, String> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(trees));
+        Job<String,Map.Entry<String,String>> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(trees));
         JobCompletableFuture<Set<Map.Entry<String, String>>> future = job
-                .keyPredicate(new KeyPredicateQ2(neighs.keySet()))
-                .mapper( new MapperQ2() )
+                .mapper( new MapperQ2(n) )
                 .combiner(new CombinerFactoryQ2())
                 .reducer( new ReducerFactoryQ2() )
                 .submit(new CollatorQ2(Integer.parseInt(min)));
