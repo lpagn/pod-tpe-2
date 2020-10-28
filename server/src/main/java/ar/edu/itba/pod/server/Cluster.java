@@ -10,11 +10,11 @@ import com.hazelcast.core.HazelcastInstance;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Objects;
 
 public class Cluster {
     public static void main(String[] args) throws FileNotFoundException {
-        URL resource = Cluster.class.getClassLoader().getResource("hazelcast.xml");
-        Config config = new XmlConfigBuilder(resource.getFile()).build();
+        Config config = new XmlConfigBuilder(Objects.requireNonNull(Cluster.class.getClassLoader().getResourceAsStream("hazelcast.xml"))).build();
         config.setGroupConfig(
                 new GroupConfig().setName("g10").setPassword("g10-pass"))
                 .setInstanceName("g10")

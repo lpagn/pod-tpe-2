@@ -77,9 +77,6 @@ public class Query1 {
                 .reducer(new ReducerFactoryQ1())
                 .submit(new CollatorQ1(map));
 
-        // Wait 15s till future is done
-        try{ future.wait(15000);} catch (IllegalMonitorStateException ignored){}
-
         // Results printing and writing
         List<Map.Entry<String,Double>> result = future.get();
         String v = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Fin del trabajo map/reduce\n";
