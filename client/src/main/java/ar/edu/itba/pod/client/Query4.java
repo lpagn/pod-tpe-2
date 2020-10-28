@@ -42,6 +42,7 @@ public class Query4 {
 
         final ClientConfig ccfg = new XmlClientConfigBuilder(Query4.class.getClassLoader().getResourceAsStream("hazelcast.xml")).build();
         ccfg.getNetworkConfig().setAddresses(Arrays.asList(addresses.split(";")));
+        ccfg.getGroupConfig().setName("g10").setPassword("g10-pass");
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
 

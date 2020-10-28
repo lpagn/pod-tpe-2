@@ -6,8 +6,7 @@ import com.hazelcast.core.HazelcastInstance;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Cluster {
     public static void main(String[] args) throws FileNotFoundException {
@@ -22,12 +21,10 @@ public class Cluster {
                 .addMapConfig(new MapConfig().setName("g10Q3Trees"))
                 .addMapConfig(new MapConfig().setName("g10Q4NeighToTreeName"))
                 .addMapConfig(new MapConfig().setName("g10Q5Trees"))
-                .addListConfig(new ListConfig().setName("g10Q2T"))
                 .addSetConfig(new SetConfig().setName("g10Q2N"));
-
-
+        final String interfaces = System.getProperty("interfaces");
+        config.getNetworkConfig().getInterfaces().setInterfaces(Arrays.asList(interfaces.split(";")));
         Hazelcast.newHazelcastInstance(config);
-
 
     }
 }
