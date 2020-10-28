@@ -45,8 +45,8 @@ public class Query2 {
         final IMap<String,Map.Entry<String, String>> trees = client.getMap("g10Q2Trees");
         trees.clear();
 
-        final ISet<String> neighs = client.getSet("g10Q2N");
-        neighs.clear();
+        final ISet<String> ineighs = client.getSet("g10Q2N");
+        ineighs.clear();
 
 
         Files.deleteIfExists(Paths.get(outPath+"/timeStamps.csv"));
@@ -58,9 +58,9 @@ public class Query2 {
         String s = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
         trees.putAll(Loader.loadNeighAndTree(inPath + "/arboles" + city + ".csv", city));
-        neighs.addAll(Loader.loadNeighbourhoodsSet(inPath + "/barrios" + city + ".csv", city));
+        ineighs.addAll(Loader.loadNeighbourhoodsSet(inPath + "/barrios" + city + ".csv", city));
 
-        Set<String> n = new HashSet<>(neighs);
+        Set<String> neighs = new HashSet<>(ineighs);
         String t = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Fin de la lectura del archivo\n";
         timeStampWriter.append(t);
 
@@ -68,7 +68,7 @@ public class Query2 {
         timeStampWriter.append(u);
         Job<String,Map.Entry<String,String>> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(trees));
         JobCompletableFuture<Set<Map.Entry<String, String>>> future = job
-                .mapper( new MapperQ2(n) )
+                .mapper( new MapperQ2(neighs) )
                 .combiner(new CombinerFactoryQ2())
                 .reducer( new ReducerFactoryQ2() )
                 .submit(new CollatorQ2(Integer.parseInt(min)));
