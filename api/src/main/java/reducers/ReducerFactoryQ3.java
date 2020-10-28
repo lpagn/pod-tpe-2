@@ -3,13 +3,15 @@ package reducers;
 import com.hazelcast.mapreduce.Reducer;
 import com.hazelcast.mapreduce.ReducerFactory;
 
-public class ReducerFactoryQ3 implements ReducerFactory<String,Double,Double> {
+import java.util.Map;
+
+public class ReducerFactoryQ3 implements ReducerFactory<String, Map.Entry<Double,Integer>,Double> {
     @Override
-    public Reducer<Double,Double> newReducer(String s) {
+    public Reducer<Map.Entry<Double,Integer>,Double> newReducer(String s) {
         return new ReducerQ3();
     }
 
-    private class ReducerQ3 extends Reducer<Double,Double>{
+    private class ReducerQ3 extends Reducer<Map.Entry<Double,Integer>,Double>{
         private volatile double sumDiameters;
         private volatile double sumTotals;
 
@@ -20,9 +22,9 @@ public class ReducerFactoryQ3 implements ReducerFactory<String,Double,Double> {
         }
 
         @Override
-        public void reduce(Double x) {
-            sumDiameters += x;
-            sumTotals += 1;
+        public void reduce(Map.Entry<Double,Integer> x) {
+            sumDiameters += x.getKey();
+            sumTotals += x.getValue();
             //System.out.println(x);
         }
 

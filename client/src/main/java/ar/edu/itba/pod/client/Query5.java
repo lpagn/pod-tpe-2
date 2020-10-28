@@ -11,6 +11,7 @@ import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Job;
 import com.hazelcast.mapreduce.JobCompletableFuture;
 import com.hazelcast.mapreduce.KeyValueSource;
+import combiners.CombinerFactoryQ5;
 import mappers.MapperQ5;
 import models.Q5ans;
 import models.Tree;
@@ -38,6 +39,7 @@ public class Query5 {
 
         Files.deleteIfExists(Paths.get(outPath+QUERY));
         Files.deleteIfExists(Paths.get(outPath+TIME));
+
         FileWriter csvWriter = new FileWriter(new File(outPath+QUERY));
         FileWriter timeStampWriter = new FileWriter(new File(outPath+TIME));
 
@@ -63,6 +65,7 @@ public class Query5 {
         Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map5));
         JobCompletableFuture<List<Q5ans>> future = job
                 .mapper( new MapperQ5() )
+                .combiner( new CombinerFactoryQ5())
                 .reducer( new ReducerFactoryQ5())
                 .submit(new CollatorQ5());
 

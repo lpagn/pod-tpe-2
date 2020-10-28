@@ -123,6 +123,7 @@ public class Loader {
 
             catch (IOException ex) {
                 logger.error("Errors Loading Trees");
+                logger.error(ex.getMessage());
             }
         }
 
@@ -142,6 +143,7 @@ public class Loader {
 
             catch (IOException ex) {
                 logger.error("Errors Loading Trees");
+                logger.error(ex.getMessage());
             }
         }
 

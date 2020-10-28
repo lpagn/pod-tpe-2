@@ -1,0 +1,5 @@
+nro_registro;tipo_activ;comuna;manzana;calle_nombre;calle_altura;direccion_normalizada;nombre_cientifico;estado_plantera;ubicacion_plantera;nivel_plantera;diametro_altura_pecho;altura_arbol
+26528;Lineal;3; ;Riobamba;0;RIOBAMBA 74;No identificado;Ocupada;Regular;A nivel;142;
+314678;Lineal;7;161;La Portena;0;LA PORTEnA 90;Fraxinus pennsylvanica;Ocupada;Regular;A nivel;142;10
+341086;Lineal;10;341;Pergamino;0;PERGAMINO 21;Fraxinus excelsior;Ocupada;Regular;A nivel;143;
+218919;Lineal;15;599;Viale Luis;0;VIALE, LUIS 74;Fraxinus pennsylvanica;Ocupada;Regular;A nivel;143;

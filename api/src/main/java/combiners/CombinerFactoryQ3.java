@@ -3,16 +3,19 @@ package combiners;
 import com.hazelcast.mapreduce.Combiner;
 import com.hazelcast.mapreduce.CombinerFactory;
 
-public class CombinerFactoryQ3 implements CombinerFactory <String,Double,Double>{
+import java.util.AbstractMap;
+import java.util.Map;
+
+public class CombinerFactoryQ3 implements CombinerFactory <String, Map.Entry<Double,Integer>,Map.Entry<Double,Integer>>{
 
     @Override
-    public Combiner<Double, Double> newCombiner(String s) {
+    public Combiner<Map.Entry<Double,Integer>, Map.Entry<Double,Integer>> newCombiner(String s) {
         return new CombinerQ3();
     }
 
-    private class CombinerQ3 extends Combiner<Double,Double> {
+    private class CombinerQ3 extends Combiner<Map.Entry<Double,Integer>,Map.Entry<Double,Integer>> {
         private volatile double sumDiameters;
-        private volatile double sumTotals;
+        private volatile int sumTotals;
 
         @Override
         public void reset() {
@@ -21,14 +24,14 @@ public class CombinerFactoryQ3 implements CombinerFactory <String,Double,Double>
         }
 
         @Override
-        public void combine(Double x) {
-            sumDiameters += x;
-            sumTotals += 1;
+        public void combine(Map.Entry<Double,Integer> x) {
+            sumDiameters += x.getKey();
+            sumTotals += x.getValue();
         }
 
         @Override
-        public Double finalizeChunk() {
-            return sumDiameters/sumTotals;
+        public Map.Entry<Double,Integer> finalizeChunk() {
+            return new AbstractMap.SimpleEntry<>(sumDiameters,sumTotals);
         }
     }
 }
