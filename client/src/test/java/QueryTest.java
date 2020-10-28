@@ -1,6 +1,7 @@
 import ar.edu.itba.pod.client.utils.Loader;
 import collators.CollatorQ1;
 import collators.CollatorQ2;
+import collators.CollatorQ3;
 import collators.CollatorQ4;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
@@ -17,20 +18,23 @@ import com.hazelcast.mapreduce.JobTracker;
 import com.hazelcast.mapreduce.KeyValueSource;
 import combiners.CombinerFactoryQ1;
 import combiners.CombinerFactoryQ2;
+import combiners.CombinerFactoryQ3;
 import combiners.CombinerFactoryQ4;
 import mappers.MapperQ1;
 import mappers.MapperQ2;
+import mappers.MapperQ3;
 import mappers.MapperQ4;
+import models.Pair;
 import models.Tree;
 import org.junit.*;
 import predicate.KeyPredicateQ2;
 import predicate.KeyPredicateQ4;
 import reducers.ReducerFactoryQ1;
 import reducers.ReducerFactoryQ2;
+import reducers.ReducerFactoryQ3;
 import reducers.ReducerFactoryQ4;
 
 import java.net.URL;
-import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -214,6 +218,46 @@ public class QueryTest {
         // Results assertion
         List<Map.Entry<String,String>> result = future.get();
         Assert.assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testQuery3() throws ExecutionException, InterruptedException {
+
+// Tree file parsing
+        final IMap<Integer, Tree> map = client.getMap("g10Q3Trees");
+        map.clear();
+        URL trees = QueryTest.class.getClassLoader().getResource("arbolesBUEtestQ5.csv");
+
+        map.putAll(Loader.loadTrees(trees.getFile(), "BUE"));
+
+// CompletableFuture object construction
+        Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map));
+        JobCompletableFuture<List<Pair<String, Double>>> future = job
+                .mapper(new MapperQ3())
+                .combiner(new CombinerFactoryQ3())
+                .reducer(new ReducerFactoryQ3())
+                .submit(new CollatorQ3(3));
+
+// Wait 15s till future is done
+        try {
+            future.wait(15000);
+        } catch (IllegalMonitorStateException ignored) {
+        }
+
+// Results assertion
+        List<Pair<String, Double>> result = future.get();
+
+        Pair<String, Double> item1 = result.get(0);
+        Assert.assertEquals(item1.getKey(), "No identificado");
+//Assert.assertEquals((double)item1.getValue(),Double.NaN,0.01);
+
+        Pair<String, Double> item2 = result.get(1);
+        Assert.assertEquals(item2.getKey(), "Fraxinus excelsior");
+//Assert.assertEquals((double)item2.getValue(),142.5, 0.01);
+
+        Pair<String, Double> item3 = result.get(2);
+        Assert.assertEquals(item3.getKey(), "Fraxinus pennsylvanica");
+//Assert.assertEquals((double)item3.getValue(),143.0,0.01);
     }
 
 
