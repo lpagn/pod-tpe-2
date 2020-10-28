@@ -128,7 +128,7 @@ public class QueryTest {
         neighs.putAll(Loader.loadNeighbourhoods(neigh.getFile(), "BUE"));
 
         // Tree file parsing
-        final IMap<Map.Entry<String, String>, String> trees = client.getMap("g10Q2Trees");
+        final IMap<String,Map.Entry<String, String>> trees = client.getMap("g10Q2Trees");
         trees.clear();
         URL t = QueryTest.class.getClassLoader().getResource("arbolesBUEtestQ2.csv");
 
@@ -139,10 +139,9 @@ public class QueryTest {
         trees.putAll(Loader.loadNeighAndTree(t.getFile(), "BUE"));
 
         // CompletableFuture object construction
-        Job<Map.Entry<String,String>, String> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(trees));
+        Job<String,Map.Entry<String,String>> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(trees));
         JobCompletableFuture<Set<Map.Entry<String, String>>> future = job
-                .keyPredicate(new KeyPredicateQ2(neighs.keySet()))
-                .mapper( new MapperQ2() )
+                .mapper( new MapperQ2(neighs.keySet()) )
                 .combiner(new CombinerFactoryQ2())
                 .reducer( new ReducerFactoryQ2() )
                 .submit(new CollatorQ2(0));
@@ -150,13 +149,13 @@ public class QueryTest {
 
         // Results assertion
         Set<Map.Entry<String, String>> result = future.get();
-        Assert.assertEquals(result.size(),2);
+        Assert.assertEquals(2,result.size());
         for(Map.Entry<String,String> e : result){
             if(e.getKey().equals("1")){
-                Assert.assertEquals(e.getValue(),"Pergamino;2");
+                Assert.assertEquals("Pergamino;2",e.getValue());
             }
             else if(e.getKey().equals("2")){
-                Assert.assertEquals(e.getValue(),"La Portena;1");
+                Assert.assertEquals("La Portena;1",e.getValue());
             }
         }
 
