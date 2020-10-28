@@ -228,14 +228,14 @@ public class QueryTest {
     @Test
     public void testQuery3() throws ExecutionException, InterruptedException {
 
-// Tree file parsing
+        // Tree file parsing
         final IMap<Integer, Tree> map = client.getMap("g10Q3Trees");
         map.clear();
         URL trees = QueryTest.class.getClassLoader().getResource("arbolesBUEtestQ5.csv");
 
         map.putAll(Loader.loadTrees(trees.getFile(), "BUE"));
 
-// CompletableFuture object construction
+        // CompletableFuture object construction
         Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map));
         JobCompletableFuture<List<Pair<String, Double>>> future = job
                 .mapper(new MapperQ3())
@@ -243,26 +243,26 @@ public class QueryTest {
                 .reducer(new ReducerFactoryQ3())
                 .submit(new CollatorQ3(3));
 
-// Wait 15s till future is done
+        // Wait 15s till future is done
         try {
             future.wait(15000);
         } catch (IllegalMonitorStateException ignored) {
         }
 
-// Results assertion
+        // Results assertion
         List<Pair<String, Double>> result = future.get();
 
-        Pair<String, Double> item1 = result.get(0);
+        Pair<String, Double> item1 = result.get(2);
         Assert.assertEquals(item1.getKey(), "No identificado");
-//Assert.assertEquals((double)item1.getValue(),Double.NaN,0.01);
+        Assert.assertEquals((double)item1.getValue(),142.0,0.01);
 
-        Pair<String, Double> item2 = result.get(1);
+        Pair<String, Double> item2 = result.get(0);
         Assert.assertEquals(item2.getKey(), "Fraxinus excelsior");
-//Assert.assertEquals((double)item2.getValue(),142.5, 0.01);
+        Assert.assertEquals((double)item2.getValue(),143.0, 0.01);
 
-        Pair<String, Double> item3 = result.get(2);
+        Pair<String, Double> item3 = result.get(1);
         Assert.assertEquals(item3.getKey(), "Fraxinus pennsylvanica");
-//Assert.assertEquals((double)item3.getValue(),143.0,0.01);
+        Assert.assertEquals((double)item3.getValue(),142.5,0.01);
     }
 
     @Test
