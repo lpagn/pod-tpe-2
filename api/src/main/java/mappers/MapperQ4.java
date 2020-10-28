@@ -7,10 +7,10 @@ import models.Tree;
 
 import java.util.Map;
 
-public class MapperQ4 implements Mapper<Map.Entry<Integer,String>, String, String,Integer> {
+public class MapperQ4 implements Mapper<Map.Entry<String,String>, String, String,Integer> {
 
     @Override
-    public void map(Map.Entry<Integer,String> pair, String neigh, Context<String, Integer> context) {
+    public void map(Map.Entry<String,String> pair, String neigh, Context<String, Integer> context) {
         context.emit(neigh.toLowerCase(), 1);
     }
 }

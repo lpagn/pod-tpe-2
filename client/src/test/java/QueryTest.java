@@ -85,7 +85,7 @@ public class QueryTest {
         map.putAll(Loader.loadNeighbourhoods(neigh.getFile(), "BUE"));
 
         // Tree file parsing
-        final IMap<Integer, Tree> map2 = client.getMap("g10Q1Trees");
+        final IMap<String, Tree> map2 = client.getMap("g10Q1Trees");
         map2.clear();
         URL trees = QueryTest.class.getClassLoader().getResource("arbolesBUEtestQ1.csv");
 
@@ -96,7 +96,7 @@ public class QueryTest {
         map2.putAll(Loader.loadTrees(trees.getFile(), "BUE"));
 
         // CompletableFuture object construction
-        Job<Integer,Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
+        Job<String,Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
         ICompletableFuture<List<Map.Entry<String,Double>>> future = job
                 .mapper(new MapperQ1())
                 .combiner(new CombinerFactoryQ1())
@@ -128,7 +128,7 @@ public class QueryTest {
         neighs.putAll(Loader.loadNeighbourhoods(neigh.getFile(), "BUE"));
 
         // Tree file parsing
-        final IMap<Map.Entry<Integer, String>, Tree> trees = client.getMap("g10Q2Trees");
+        final IMap<Map.Entry<String, String>, String> trees = client.getMap("g10Q2Trees");
         trees.clear();
         URL t = QueryTest.class.getClassLoader().getResource("arbolesBUEtestQ2.csv");
 
@@ -139,7 +139,7 @@ public class QueryTest {
         trees.putAll(Loader.loadNeighAndTree(t.getFile(), "BUE"));
 
         // CompletableFuture object construction
-        Job<Map.Entry<Integer,String>, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(trees));
+        Job<Map.Entry<String,String>, String> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(trees));
         JobCompletableFuture<Set<Map.Entry<String, String>>> future = job
                 .keyPredicate(new KeyPredicateQ2(neighs.keySet()))
                 .mapper( new MapperQ2() )
@@ -167,7 +167,7 @@ public class QueryTest {
         // Neighbourhood file parsing
 
         // Tree file parsing
-        final IMap<Map.Entry<Integer,String>, String> map = client.getMap("g10Q4NeighToTreeName");
+        final IMap<Map.Entry<String,String>, String> map = client.getMap("g10Q4NeighToTreeName");
         map.clear();
         URL trees = QueryTest.class.getClassLoader().getResource("arbolesBUEtestQ4.csv");
 
@@ -178,9 +178,9 @@ public class QueryTest {
         Integer min = 1;
         map.putAll(Loader.loadNeighToTreeName(trees.getFile(), "BUE"));
         JobTracker jobTracker = client.getJobTracker("g10q4");
-        final KeyValueSource<Map.Entry<Integer,String>, String> source = KeyValueSource.fromMap(map);
+        final KeyValueSource<Map.Entry<String,String>, String> source = KeyValueSource.fromMap(map);
         // CompletableFuture object construction
-        Job<Map.Entry<Integer,String>, String> job = jobTracker.newJob(source);
+        Job<Map.Entry<String,String>, String> job = jobTracker.newJob(source);
         ICompletableFuture<List<Map.Entry<String,String>>> future = job
                 .keyPredicate(new KeyPredicateQ4(name))
                 .mapper( new MapperQ4())
@@ -199,7 +199,7 @@ public class QueryTest {
         // Neighbourhood file parsing
 
         // Tree file parsing
-        final IMap<Map.Entry<Integer,String>, String> map = client.getMap("g10Q4NeighToTreeName");
+        final IMap<Map.Entry<String,String>, String> map = client.getMap("g10Q4NeighToTreeName");
         map.clear();
         URL trees = QueryTest.class.getClassLoader().getResource("arbolesBUEtestQ4.csv");
 
@@ -210,9 +210,9 @@ public class QueryTest {
         Integer min = 10;
         map.putAll(Loader.loadNeighToTreeName(trees.getFile(), "BUE"));
         JobTracker jobTracker = client.getJobTracker("g10q4");
-        final KeyValueSource<Map.Entry<Integer,String>, String> source = KeyValueSource.fromMap(map);
+        final KeyValueSource<Map.Entry<String,String>, String> source = KeyValueSource.fromMap(map);
         // CompletableFuture object construction
-        Job<Map.Entry<Integer,String>, String> job = jobTracker.newJob(source);
+        Job<Map.Entry<String,String>, String> job = jobTracker.newJob(source);
         ICompletableFuture<List<Map.Entry<String,String>>> future = job
                 .keyPredicate(new KeyPredicateQ4(name))
                 .mapper( new MapperQ4())
@@ -229,14 +229,14 @@ public class QueryTest {
     public void testQuery3() throws ExecutionException, InterruptedException {
 
         // Tree file parsing
-        final IMap<Integer, Tree> map = client.getMap("g10Q3Trees");
+        final IMap<String, Tree> map = client.getMap("g10Q3Trees");
         map.clear();
         URL trees = QueryTest.class.getClassLoader().getResource("arbolesBUEtestQ5.csv");
 
         map.putAll(Loader.loadTrees(trees.getFile(), "BUE"));
 
         // CompletableFuture object construction
-        Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map));
+        Job<String, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map));
         JobCompletableFuture<List<Pair<String, Double>>> future = job
                 .mapper(new MapperQ3())
                 .combiner(new CombinerFactoryQ3())
@@ -268,14 +268,14 @@ public class QueryTest {
     @Test
     public void testQuery5() throws ExecutionException, InterruptedException {
         // Tree file parsing
-        final IMap<Integer, Tree> map = client.getMap("g10Q5Trees");
+        final IMap<String, Tree> map = client.getMap("g10Q5Trees");
         map.clear();
         URL trees = QueryTest.class.getClassLoader().getResource("vantest.csv");
 
         map.putAll(Loader.loadTrees(trees.getFile(), "VAN"));
 
         // CompletableFuture object construction
-        Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map));
+        Job<String, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map));
         JobCompletableFuture<List<Q5ans>> future = job
                 .mapper(new MapperQ5())
                 .combiner(new CombinerFactoryQ5())

@@ -59,7 +59,7 @@ public class Query1 {
         map.putAll(Loader.loadNeighbourhoods(inPath + "/barrios" + city + ".csv", city));
 
         // Tree file parsing
-        final IMap<Integer,Tree> map2 = client.getMap("g10Q1Trees");
+        final IMap<String,Tree> map2 = client.getMap("g10Q1Trees");
         map2.clear();
         map2.putAll(Loader.loadTrees(inPath + "/arboles" + city + ".csv", city));
 
@@ -70,7 +70,7 @@ public class Query1 {
         String u = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Inicio del trabajo map/reduce\n";
         timeStampWriter.append(u);
 
-        Job<Integer,Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
+        Job<String,Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
         ICompletableFuture<List<Map.Entry<String,Double>>> future = job
                 .mapper(new MapperQ1())
                 .combiner(new CombinerFactoryQ1())

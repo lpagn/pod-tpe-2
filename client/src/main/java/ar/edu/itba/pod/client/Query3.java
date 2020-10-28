@@ -47,7 +47,7 @@ public class Query3 {
         FileWriter csvWriter = new FileWriter(new File(outPath+QUERY));
         FileWriter timeStampWriter = new FileWriter(new File(outPath+TIME));
 
-        final IMap<Integer, Tree> map3 = client.getMap("g10Q3Trees");
+        final IMap<String, Tree> map3 = client.getMap("g10Q3Trees");
         map3.clear();
 
         String s = QueryUtils.now() + " INFO [main] Query3 (Query3.java:xx) - Inicio de la lectura del archivo\n";
@@ -61,7 +61,7 @@ public class Query3 {
         String u = QueryUtils.now() + " INFO [main] Query3 (Query3.java:xx) - Inicio del trabajo map/reduce\n";
         timeStampWriter.append(u);
 
-        Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map3));
+        Job<String, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map3));
         JobCompletableFuture<List<Pair<String, Double>>> future = job
                 .mapper( new MapperQ3() )
                 .combiner( new CombinerFactoryQ3())

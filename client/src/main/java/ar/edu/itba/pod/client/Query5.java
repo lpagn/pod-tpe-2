@@ -48,7 +48,7 @@ public class Query5 {
         ccfg.getNetworkConfig().setAddresses(Arrays.asList(addresses.split(";")));
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
-        final IMap<Integer, Tree> map5 = client.getMap("g10Q5Trees");
+        final IMap<String, Tree> map5 = client.getMap("g10Q5Trees");
         map5.clear();
 
         String s = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Inicio de la lectura del archivo\n";
@@ -62,7 +62,7 @@ public class Query5 {
         String u = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Inicio del trabajo map/reduce\n";
         timeStampWriter.append(u);
 
-        Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map5));
+        Job<String, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map5));
         JobCompletableFuture<List<Q5ans>> future = job
                 .mapper( new MapperQ5() )
                 .combiner( new CombinerFactoryQ5())

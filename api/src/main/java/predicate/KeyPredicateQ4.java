@@ -5,7 +5,7 @@ import models.Pair;
 
 import java.util.Map;
 
-public class KeyPredicateQ4 implements KeyPredicate<Map.Entry<Integer,String>> {
+public class KeyPredicateQ4 implements KeyPredicate<Map.Entry<String,String>> {
     String specie;
 
     public KeyPredicateQ4(String specie){
@@ -13,7 +13,7 @@ public class KeyPredicateQ4 implements KeyPredicate<Map.Entry<Integer,String>> {
     }
 
     @Override
-    public boolean evaluate(Map.Entry<Integer,String> s ) {
+    public boolean evaluate(Map.Entry<String,String> s ) {
         return s != null && s.getValue().toLowerCase().contains(specie.toLowerCase());
     }
 }

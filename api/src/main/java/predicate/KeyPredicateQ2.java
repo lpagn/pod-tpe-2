@@ -5,7 +5,7 @@ import com.hazelcast.mapreduce.KeyPredicate;
 import java.util.Map;
 import java.util.Set;
 
-public class KeyPredicateQ2 implements KeyPredicate<Map.Entry<Integer,String>> {
+public class KeyPredicateQ2 implements KeyPredicate<Map.Entry<String,String>> {
 
     private Set<String> neighs;
 
@@ -14,7 +14,7 @@ public class KeyPredicateQ2 implements KeyPredicate<Map.Entry<Integer,String>> {
     }
 
     @Override
-    public boolean evaluate(Map.Entry<Integer, String> key) {
+    public boolean evaluate(Map.Entry<String, String> key) {
         return neighs.contains(key.getValue());
     }
 }

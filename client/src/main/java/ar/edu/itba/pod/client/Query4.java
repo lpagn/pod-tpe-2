@@ -50,7 +50,7 @@ public class Query4 {
         String s = QueryUtils.now() + " INFO [main] Query4 (Query4.java:xx) - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
 
-        final IMap<Map.Entry<Integer,String>, String> map = client.getMap("g10Q4NeighToTreeName");
+        final IMap<Map.Entry<String,String>, String> map = client.getMap("g10Q4NeighToTreeName");
         map.clear();
 
         map.putAll(Loader.loadNeighToTreeName(inPath + "/arboles" + city + ".csv", city));
@@ -62,8 +62,8 @@ public class Query4 {
         timeStampWriter.append(u);
 
         JobTracker jobTracker = client.getJobTracker("g10q4");
-        final KeyValueSource<Map.Entry<Integer,String>, String> source = KeyValueSource.fromMap(map);
-        Job<Map.Entry<Integer,String>, String> job = jobTracker.newJob(source);
+        final KeyValueSource<Map.Entry<String,String>, String> source = KeyValueSource.fromMap(map);
+        Job<Map.Entry<String,String>, String> job = jobTracker.newJob(source);
         ICompletableFuture<List<Map.Entry<String,String>>> future = job
                 .keyPredicate(new KeyPredicateQ4(name))
                 .mapper( new MapperQ4())

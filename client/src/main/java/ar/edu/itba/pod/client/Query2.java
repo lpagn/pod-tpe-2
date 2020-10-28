@@ -6,7 +6,6 @@ import collators.CollatorQ2;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.client.config.XmlClientConfigBuilder;
-import com.hazelcast.config.GroupConfig;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
 import com.hazelcast.mapreduce.Job;
@@ -36,13 +35,12 @@ public class Query2 {
         final String inPath = System.getProperty("inPath");
         final String outPath = System.getProperty("outPath");
         final String min = System.getProperty("min");
-//        String[] address = addresses.split(";");
 
         final ClientConfig ccfg = new XmlClientConfigBuilder(Query4.class.getClassLoader().getResourceAsStream("hazelcast.xml")).build();
         ccfg.getNetworkConfig().setAddresses(Arrays.asList(addresses.split(";")));
         final HazelcastInstance client = HazelcastClient.newHazelcastClient(ccfg);
 
-        final IMap<Map.Entry<Integer, String>, Tree> trees = client.getMap("g10Q2Trees");
+        final IMap<Map.Entry<String, String>, String> trees = client.getMap("g10Q2Trees");
         trees.clear();
 
         final IMap<String, Integer> neighs = client.getMap("g10Q2Neighbourhood");
@@ -64,7 +62,7 @@ public class Query2 {
 
         String u = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Inicio del trabajo map/reduce\n";
         timeStampWriter.append(u);
-        Job<Map.Entry<Integer,String>, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(trees));
+        Job<Map.Entry<String,String>, String> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(trees));
         JobCompletableFuture<Set<Map.Entry<String, String>>> future = job
                 .keyPredicate(new KeyPredicateQ2(neighs.keySet()))
                 .mapper( new MapperQ2() )

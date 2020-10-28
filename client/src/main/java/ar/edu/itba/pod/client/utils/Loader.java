@@ -55,8 +55,8 @@ public class Loader {
         return map;
     }
 
-    public static Map<Integer, Tree> loadTrees(String file, String city) {
-        Map<Integer, Tree> map = new HashMap<>();
+    public static Map<String, Tree> loadTrees(String file, String city) {
+        Map<String, Tree> map = new HashMap<>();
 
         if(city.compareTo("BUE") == 0){
             try {
@@ -67,7 +67,7 @@ public class Loader {
                 );
                 csvParser.forEach(csvRecord ->
                         map.putIfAbsent(
-                                Integer.valueOf(csvRecord.get(0)),
+                                csvRecord.get(0),
                                 new Tree(csvRecord.get(2), csvRecord.get(4), csvRecord.get(7), Double.parseDouble(csvRecord.get(11))))
                 );
 
@@ -87,7 +87,7 @@ public class Loader {
                 );
                 csvParser.forEach(csvRecord ->
                         map.putIfAbsent(
-                                Integer.valueOf(csvRecord.get(0)),
+                                csvRecord.get(0),
                                 new Tree(csvRecord.get(12), csvRecord.get(11), csvRecord.get(6), Double.parseDouble(csvRecord.get(15))))
                 );
 
@@ -104,8 +104,8 @@ public class Loader {
         return map;
     }
 
-    public static Map<Map.Entry<Integer,String>,String> loadNeighToTreeName(String file, String city) {
-        Map<Map.Entry<Integer,String>, String> map = new HashMap<>();
+    public static Map<Map.Entry<String,String>,String> loadNeighToTreeName(String file, String city) {
+        Map<Map.Entry<String,String>, String> map = new HashMap<>();
 
         if(city.compareTo("BUE") == 0){
             try {
@@ -115,7 +115,7 @@ public class Loader {
 
                 );
                 csvParser.forEach(csvRecord ->
-                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(Integer.valueOf(csvRecord.get(0)),csvRecord.get(7)),
+                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(csvRecord.get(0),csvRecord.get(7)),
                                 csvRecord.get(2))
                 );
 
@@ -135,7 +135,7 @@ public class Loader {
 
                 );
                 csvParser.forEach(csvRecord ->
-                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(Integer.valueOf(csvRecord.get(0)),csvRecord.get(6)),
+                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(csvRecord.get(0),csvRecord.get(6)),
                                 csvRecord.get(12))
                 );
 
@@ -150,8 +150,8 @@ public class Loader {
         return map;
     }
 
-    public static Map<Map.Entry<Integer,String>,Tree> loadNeighAndTree(String file, String city) {
-        Map<Map.Entry<Integer,String>, Tree> map = new HashMap<>();
+    public static Map<Map.Entry<String,String>,String> loadNeighAndTree(String file, String city) {
+        Map<Map.Entry<String,String>, String> map = new HashMap<>();
 
         if(city.compareTo("BUE") == 0){
             try {
@@ -161,8 +161,8 @@ public class Loader {
 
                 );
                 csvParser.forEach(csvRecord ->
-                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(Integer.valueOf(csvRecord.get(0)),csvRecord.get(2)),
-                                new Tree(csvRecord.get(2), csvRecord.get(4), csvRecord.get(7), Double.parseDouble(csvRecord.get(11))))
+                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(csvRecord.get(0),csvRecord.get(2)),
+                                csvRecord.get(4))
                 );
 
             } catch (IllegalArgumentException ignored){}
@@ -180,8 +180,8 @@ public class Loader {
 
                 );
                 csvParser.forEach(csvRecord ->
-                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(Integer.valueOf(csvRecord.get(0)),csvRecord.get(12)),
-                                new Tree(csvRecord.get(12), csvRecord.get(11), csvRecord.get(6), Double.parseDouble(csvRecord.get(15))))
+                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(csvRecord.get(0),csvRecord.get(12)),
+                                csvRecord.get(11))
                 );
 
             } catch (IllegalArgumentException ignored){}
