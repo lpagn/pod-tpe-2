@@ -104,8 +104,8 @@ public class Loader {
         return map;
     }
 
-    public static Map<Map.Entry<String,String>,String> loadNeighToTreeName(String file, String city) {
-        Map<Map.Entry<String,String>, String> map = new HashMap<>();
+    public static Map<String,Map.Entry<String,String>> loadNeighToTreeName(String file, String city) {
+        Map<String, Map.Entry<String,String>> map = new HashMap<>();
 
         if(city.compareTo("BUE") == 0){
             try {
@@ -115,8 +115,8 @@ public class Loader {
 
                 );
                 csvParser.forEach(csvRecord ->
-                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(csvRecord.get(0),csvRecord.get(7)),
-                                csvRecord.get(2))
+                        map.putIfAbsent(csvRecord.get(0),
+                                new AbstractMap.SimpleEntry<>(csvRecord.get(2),csvRecord.get(7)))
                 );
 
             } catch (IllegalArgumentException ignored){}
@@ -135,8 +135,8 @@ public class Loader {
 
                 );
                 csvParser.forEach(csvRecord ->
-                        map.putIfAbsent(new AbstractMap.SimpleEntry<>(csvRecord.get(0),csvRecord.get(6)),
-                                csvRecord.get(12))
+                        map.putIfAbsent(csvRecord.get(0),
+                                new AbstractMap.SimpleEntry<>(csvRecord.get(12),csvRecord.get(6)))
                 );
 
             } catch (IllegalArgumentException ignored){}
