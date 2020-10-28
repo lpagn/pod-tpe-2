@@ -36,9 +36,6 @@ public class Query1 {
         final String inPath = System.getProperty("inPath");
         final String outPath = System.getProperty("outPath");
 
-        // Parsing addresses
-        String[] address = addresses.split(";");
-
         // Hazelcast config
         final ClientConfig ccfg = new XmlClientConfigBuilder(Query4.class.getClassLoader().getResourceAsStream("hazelcast.xml")).build();
         ccfg.getNetworkConfig().setAddresses(Arrays.asList(addresses.split(";")));
@@ -90,7 +87,7 @@ public class Query1 {
         // Exit
         csvWriter.close();
         timeStampWriter.close();
-        System.exit(1);
+        client.shutdown();
     }
 }
 

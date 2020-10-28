@@ -166,7 +166,7 @@ public class QueryTest {
         // Neighbourhood file parsing
 
         // Tree file parsing
-        final IMap<Map.Entry<String,String>, String> map = client.getMap("g10Q4NeighToTreeName");
+        final IMap< String,Map.Entry<String,String>> map = client.getMap("g10Q4NeighToTreeName");
         map.clear();
         URL trees = QueryTest.class.getClassLoader().getResource("arbolesBUEtestQ4.csv");
 
@@ -174,15 +174,14 @@ public class QueryTest {
             System.exit(-1);
         }
         String name = "Fraxinus pennsylvanica";
-        Integer min = 1;
+        int min = 1;
         map.putAll(Loader.loadNeighToTreeName(trees.getFile(), "BUE"));
         JobTracker jobTracker = client.getJobTracker("g10q4");
-        final KeyValueSource<Map.Entry<String,String>, String> source = KeyValueSource.fromMap(map);
+        final KeyValueSource<String, Map.Entry<String,String>> source = KeyValueSource.fromMap(map);
         // CompletableFuture object construction
-        Job<Map.Entry<String,String>, String> job = jobTracker.newJob(source);
+        Job<String, Map.Entry<String,String>> job = jobTracker.newJob(source);
         ICompletableFuture<List<Map.Entry<String,String>>> future = job
-                .keyPredicate(new KeyPredicateQ4(name))
-                .mapper( new MapperQ4())
+                .mapper( new MapperQ4(name))
                 .combiner( new CombinerFactoryQ4() )
                 .reducer( new ReducerFactoryQ4())
                 .submit( new CollatorQ4(min));
@@ -198,7 +197,7 @@ public class QueryTest {
         // Neighbourhood file parsing
 
         // Tree file parsing
-        final IMap<Map.Entry<String,String>, String> map = client.getMap("g10Q4NeighToTreeName");
+        final IMap< String,Map.Entry<String,String>> map = client.getMap("g10Q4NeighToTreeName");
         map.clear();
         URL trees = QueryTest.class.getClassLoader().getResource("arbolesBUEtestQ4.csv");
 
@@ -206,15 +205,14 @@ public class QueryTest {
             System.exit(-1);
         }
         String name = "Fraxinus pennsylvanica";
-        Integer min = 10;
+        int min = 10;
         map.putAll(Loader.loadNeighToTreeName(trees.getFile(), "BUE"));
         JobTracker jobTracker = client.getJobTracker("g10q4");
-        final KeyValueSource<Map.Entry<String,String>, String> source = KeyValueSource.fromMap(map);
+        final KeyValueSource<String, Map.Entry<String,String>> source = KeyValueSource.fromMap(map);
         // CompletableFuture object construction
-        Job<Map.Entry<String,String>, String> job = jobTracker.newJob(source);
+        Job<String, Map.Entry<String,String>> job = jobTracker.newJob(source);
         ICompletableFuture<List<Map.Entry<String,String>>> future = job
-                .keyPredicate(new KeyPredicateQ4(name))
-                .mapper( new MapperQ4())
+                .mapper( new MapperQ4(name))
                 .combiner( new CombinerFactoryQ4() )
                 .reducer( new ReducerFactoryQ4())
                 .submit( new CollatorQ4(min));

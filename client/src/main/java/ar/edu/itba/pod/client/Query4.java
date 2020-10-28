@@ -13,6 +13,8 @@ import com.hazelcast.mapreduce.*;
 import combiners.CombinerFactoryQ4;
 import mappers.MapperQ4;
 import models.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import predicate.KeyPredicateQ4;
 import reducers.ReducerFactoryQ4;
 
@@ -29,6 +31,8 @@ import java.util.concurrent.ExecutionException;
 public class Query4 {
 
     public static void main(String [] args) throws ExecutionException, InterruptedException, IOException {
+
+
         final String city = System.getProperty("city");
         final String addresses = System.getProperty("addresses");
         final String inPath = System.getProperty("inPath");
@@ -47,10 +51,10 @@ public class Query4 {
         FileWriter timeStampWriter = new FileWriter(new File(outPath+"/time4.txt"));
         FileWriter csvWriter = new FileWriter(new File(outPath+"/query4.csv"));
 
-        String s = QueryUtils.now() + " INFO [main] Query4 (Query4.java:xx) - Inicio de la lectura del archivo\n";
+        String s = QueryUtils.now() + " Query4: - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
 
-        final IMap<Map.Entry<String,String>, String> map = client.getMap("g10Q4NeighToTreeName");
+        final IMap< String,Map.Entry<String,String>> map = client.getMap("g10Q4NeighToTreeName");
         map.clear();
 
         map.putAll(Loader.loadNeighToTreeName(inPath + "/arboles" + city + ".csv", city));
@@ -62,16 +66,13 @@ public class Query4 {
         timeStampWriter.append(u);
 
         JobTracker jobTracker = client.getJobTracker("g10q4");
-        final KeyValueSource<Map.Entry<String,String>, String> source = KeyValueSource.fromMap(map);
-        Job<Map.Entry<String,String>, String> job = jobTracker.newJob(source);
+        final KeyValueSource<String, Map.Entry<String,String>> source = KeyValueSource.fromMap(map);
+        Job<String, Map.Entry<String,String>> job = jobTracker.newJob(source);
         ICompletableFuture<List<Map.Entry<String,String>>> future = job
-                .keyPredicate(new KeyPredicateQ4(name))
-                .mapper( new MapperQ4())
+                .mapper( new MapperQ4(name))
                 .combiner( new CombinerFactoryQ4() )
                 .reducer( new ReducerFactoryQ4())
                 .submit( new CollatorQ4(min));
-        // Attach a callback listener
-
 
         List<Map.Entry<String,String>> result = future.get();
 
@@ -90,7 +91,7 @@ public class Query4 {
         });
         csvWriter.close();
         timeStampWriter.close();
-        System.exit(0);
+        client.shutdown();
 //        JobTracker jobTracker = client.getJobTracker("g10q4");
 //        final KeyValueSource<Integer, Tree> source = KeyValueSource.fromMap(map2);
 //        Job<Integer, Tree> job = jobTracker.newJob(source);
