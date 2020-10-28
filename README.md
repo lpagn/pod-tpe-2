@@ -4,7 +4,7 @@
 Es necesario correr la línea `mvn clean package install`, posteriormente descomprimir los archivos .tar.gz que se generan en las carpetas /client/target y /server/target.
 
 ### Levantando el Cluster
-Primero hay que dirigirse a la carpeta `/server/target/tpe2-g10-server-1.0-SNAPSHOT` y correr el archivo `run-cluster.sh` para levantar el Cluster. Se deben tener permisos de ejecución.
+Primero hay que dirigirse a la carpeta `/server/target/tpe2-g10-server-1.0-SNAPSHOT` y correr el archivo `run-cluster.sh` para levantar el Cluster. Se deben tener permisos de ejecución. Se permite cambiar la interfaz hazelcas mediante el parametro -Dinterfaces que puede recibir multiples direcciones separadas por un ";" 
 
 ### Utilizando los clientes
 Hay que dirigirse a la carpeta `/client/target/tpe2-g10-client-1.0-SNAPSHOT`. Allí tenemos cinco archivos bash para correr, con el nombre en concordancia con las queries solicitadas por la cátedra. A continuación algunos usos de los mismos:
