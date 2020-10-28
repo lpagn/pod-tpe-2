@@ -2,6 +2,7 @@ import ar.edu.itba.pod.client.utils.Loader;
 import collators.CollatorQ1;
 import collators.CollatorQ2;
 import collators.CollatorQ4;
+import collators.CollatorQ5;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.config.Config;
@@ -18,9 +19,12 @@ import com.hazelcast.mapreduce.KeyValueSource;
 import combiners.CombinerFactoryQ1;
 import combiners.CombinerFactoryQ2;
 import combiners.CombinerFactoryQ4;
+import combiners.CombinerFactoryQ5;
 import mappers.MapperQ1;
 import mappers.MapperQ2;
 import mappers.MapperQ4;
+import mappers.MapperQ5;
+import models.Q5ans;
 import models.Tree;
 import org.junit.*;
 import predicate.KeyPredicateQ2;
@@ -28,6 +32,7 @@ import predicate.KeyPredicateQ4;
 import reducers.ReducerFactoryQ1;
 import reducers.ReducerFactoryQ2;
 import reducers.ReducerFactoryQ4;
+import reducers.ReducerFactoryQ5;
 
 import java.net.URL;
 import java.util.AbstractMap;
@@ -216,8 +221,35 @@ public class QueryTest {
         Assert.assertTrue(result.isEmpty());
     }
 
+    @Test
+    public void testQuery5() throws ExecutionException, InterruptedException {
+        // Tree file parsing
+        final IMap<Integer, Tree> map = client.getMap("g10Q5Trees");
+        map.clear();
+        URL trees = QueryTest.class.getClassLoader().getResource("vantest.csv");
 
-    @AfterClass
+        map.putAll(Loader.loadTrees(trees.getFile(), "VAN"));
+
+        // CompletableFuture object construction
+        Job<Integer, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map));
+        JobCompletableFuture<List<Q5ans>> future = job
+                .mapper(new MapperQ5())
+                .combiner(new CombinerFactoryQ5())
+                .reducer(new ReducerFactoryQ5())
+                .submit(new CollatorQ5());
+
+        // Wait 15s till future is done
+        try {
+            future.wait(15000);
+        } catch (IllegalMonitorStateException ignored) {
+        }
+        List<Q5ans> result = future.get();
+        //result.forEach(System.out::println);
+        Assert.assertEquals(result.get(0).n1,"ARBUTUS-RIDGE");
+        Assert.assertEquals(result.get(0).n2,"DUNBAR-SOUTHLANDS");
+    }
+
+        @AfterClass
     public static void tearDown(){
         Hazelcast.shutdownAll();
     }
