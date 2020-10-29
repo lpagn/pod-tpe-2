@@ -14,8 +14,6 @@ import com.hazelcast.mapreduce.JobCompletableFuture;
 import com.hazelcast.mapreduce.KeyValueSource;
 import combiners.CombinerFactoryQ2;
 import mappers.MapperQ2;
-import models.Tree;
-import predicate.KeyPredicateQ2;
 import reducers.ReducerFactoryQ2;
 
 import java.io.File;

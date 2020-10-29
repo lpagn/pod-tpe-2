@@ -31,8 +31,6 @@ import mappers.MapperQ5;
 import models.Q5ans;
 import models.Tree;
 import org.junit.*;
-import predicate.KeyPredicateQ2;
-import predicate.KeyPredicateQ4;
 import reducers.ReducerFactoryQ1;
 import reducers.ReducerFactoryQ2;
 import reducers.ReducerFactoryQ3;
