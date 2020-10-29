@@ -51,15 +51,15 @@ public class Query5 {
         final IMap<String, Tree> map5 = client.getMap("g10Q5Trees");
         map5.clear();
 
-        String s = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Inicio de la lectura del archivo\n";
+        String s = QueryUtils.now() + " Query5: - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
 
         map5.putAll(Loader.loadTrees(inPath + "/arboles" + city + ".csv", city));
 
-        String t = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Fin de la lectura del archivo\n";
+        String t = QueryUtils.now() + " Query5: - Fin de la lectura del archivo\n";
         timeStampWriter.append(t);
 
-        String u = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Inicio del trabajo map/reduce\n";
+        String u = QueryUtils.now() + " Query5: - Inicio del trabajo map/reduce\n";
         timeStampWriter.append(u);
 
         Job<String, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map5));
@@ -71,7 +71,7 @@ public class Query5 {
 
         while(!future.isDone());
 
-        String v = QueryUtils.now() + " INFO [main] Query5 (Query5.java:xx) - Fin del trabajo map/reduce\n";
+        String v = QueryUtils.now() + " Query5: - Fin del trabajo map/reduce\n";
         timeStampWriter.append(v);
 
         List<Q5ans> result = future.get();

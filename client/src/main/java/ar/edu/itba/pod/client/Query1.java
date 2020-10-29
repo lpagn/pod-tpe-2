@@ -48,7 +48,7 @@ public class Query1 {
         FileWriter csvWriter = new FileWriter(new File(outPath + "/query1.csv"));
 
         // Neighbourhood file parsing
-        String s = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Inicio de la lectura del archivo\n";
+        String s = QueryUtils.now() + " Query2: - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
 
         final IMap<String, Integer> map = client.getMap("g10Q1Neighbourhood");
@@ -60,11 +60,11 @@ public class Query1 {
         map2.clear();
         map2.putAll(Loader.loadTrees(inPath + "/arboles" + city + ".csv", city));
 
-        String t = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Fin de la lectura del archivo\n";
+        String t = QueryUtils.now() + " Query2: - Fin de la lectura del archivo\n";
         timeStampWriter.append(t);
 
         // CompletableFuture object construction
-        String u = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Inicio del trabajo map/reduce\n";
+        String u = QueryUtils.now() + " Query2: - Inicio del trabajo map/reduce\n";
         timeStampWriter.append(u);
 
         Job<String,Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map2));
@@ -76,7 +76,7 @@ public class Query1 {
 
         // Results printing and writing
         List<Map.Entry<String,Double>> result = future.get();
-        String v = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Fin del trabajo map/reduce\n";
+        String v = QueryUtils.now() + " Query2: - Fin del trabajo map/reduce\n";
         timeStampWriter.append(v);
         csvWriter.append("BARRIO;ARBOLES_POR_HABITANTE\n");
 
