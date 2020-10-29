@@ -87,6 +87,8 @@ public class Query1 {
         // Exit
         csvWriter.close();
         timeStampWriter.close();
+        map.clear();
+        map2.clear();
         client.shutdown();
     }
 }

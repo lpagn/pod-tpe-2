@@ -88,6 +88,7 @@ public class Query5 {
         });
         csvWriter.close();
         timeStampWriter.close();
+        map5.clear();
         client.shutdown();
     }
 }
