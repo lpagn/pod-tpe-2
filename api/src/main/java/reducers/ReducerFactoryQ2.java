@@ -13,7 +13,7 @@ public class ReducerFactoryQ2 implements ReducerFactory<Map.Entry<String,String>
     }
 
     private class ReducerQ2 extends Reducer<Integer,Integer>{
-        private volatile int sum;
+        private int sum;
 
         @Override
         public void beginReduce() {
@@ -21,7 +21,7 @@ public class ReducerFactoryQ2 implements ReducerFactory<Map.Entry<String,String>
         }
 
         @Override
-        public synchronized void reduce(Integer i) {
+        public void reduce(Integer i) {
             sum+=i;
         }
 

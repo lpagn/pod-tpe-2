@@ -12,9 +12,9 @@ public class CombinerFactoryQ2 implements CombinerFactory<Map.Entry<String,Strin
     }
 
     private class CombinerQ2 extends Combiner<Integer,Integer>{
-        private volatile int sum = 0;
+        private int sum = 0;
         @Override
-        public synchronized void combine( Integer value ) {
+        public void combine( Integer value ) {
             sum++;
         }
         @Override
