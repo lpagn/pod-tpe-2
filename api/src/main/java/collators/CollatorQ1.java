@@ -23,6 +23,19 @@ public class CollatorQ1 implements Collator<Map.Entry<String,Integer>, List<Map.
         }
 
         List<Map.Entry<String, Double>> toReturn = new ArrayList<>(beforeReturn.entrySet());
-        return toReturn.stream().sorted((o1, o2) -> o1.getValue().compareTo(o2.getValue()) == 0? o1.getKey().compareTo(o2.getKey()) : o1.getValue().compareTo(o2.getValue())).collect(Collectors.toList());
+        return toReturn.stream().sorted(new EntryComparator()).collect(Collectors.toList());
+    }
+
+    private static class EntryComparator implements Comparator<Map.Entry<String,Double>> {
+
+        @Override
+        public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
+            if(Double.compare(o1.getValue(), o2.getValue()) == 0){
+                return o1.getKey().compareTo(o2.getKey());
+            }
+
+            return -1 * Double.compare(o1.getValue(), o2.getValue());
+        }
+
     }
 }
