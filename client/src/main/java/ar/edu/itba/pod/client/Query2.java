@@ -49,11 +49,11 @@ public class Query2 {
         ineighs.clear();
 
 
-        Files.deleteIfExists(Paths.get(outPath+"/timeStamps.csv"));
-        Files.deleteIfExists(Paths.get(outPath+"/result.csv"));
+        Files.deleteIfExists(Paths.get(outPath+"/time2.txt"));
+        Files.deleteIfExists(Paths.get(outPath+"/query2.csv"));
 
-        FileWriter timeStampWriter = new FileWriter(new File(outPath+"/timeStamps.txt"));
-        FileWriter csvWriter = new FileWriter(new File(outPath+"/result.csv"));
+        FileWriter timeStampWriter = new FileWriter(new File(outPath+"/time2.txt"));
+        FileWriter csvWriter = new FileWriter(new File(outPath+"/query2.csv"));
 
         String s = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
