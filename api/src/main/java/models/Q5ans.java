@@ -17,7 +17,9 @@ public class Q5ans {
     }
 
     public int compareTo(Q5ans x1) {
-        if(group == x1.group) {
+        Integer x = group;
+        Integer y = x1.group;
+        if(x.compareTo(y)==0) {
             int f = n1.compareTo(x1.n1);
             if (f == 0) {
                 return n2.compareTo(x1.n2);
@@ -25,11 +27,8 @@ public class Q5ans {
                 return f;
             }
         }
-        else{
-            return group - x1.group;
-        }
+        return y.compareTo(x);
     }
 }
-
 
 

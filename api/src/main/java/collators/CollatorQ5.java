@@ -23,7 +23,7 @@ public class CollatorQ5 implements Collator<Map.Entry<String, Integer>, List<Q5a
             }
         }
 
-        return list.stream().sorted(Q5ans::compareTo).collect(Collectors.toList());
-
+        list.sort(Q5ans::compareTo);
+        return list;
     }
 }
