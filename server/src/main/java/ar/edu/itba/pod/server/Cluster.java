@@ -12,9 +12,6 @@ public class Cluster {
     public static void main(String[] args) throws FileNotFoundException {
         String interfaces = System.getProperty("interfaces");
 
-        if(interfaces == null || interfaces.equals("")){
-            interfaces = "10.16.1.*";
-        }
 
         Config config = new XmlConfigBuilder(Objects.requireNonNull(Cluster.class.getClassLoader().getResourceAsStream("hazelcast.xml"))).build();
         config.setGroupConfig(
@@ -29,7 +26,10 @@ public class Cluster {
                 .addMapConfig(new MapConfig().setName("g10Q5Trees"))
                 .addSetConfig(new SetConfig().setName("g10Q2N"));
 
-        config.getNetworkConfig().getInterfaces().setInterfaces(Arrays.asList(interfaces.split(";")));
+        if(interfaces != null && !interfaces.equals("")){
+            config.getNetworkConfig().getInterfaces().setInterfaces(Arrays.asList(interfaces.split(";")));
+        }
+
         Hazelcast.newHazelcastInstance(config);
     }
 }
