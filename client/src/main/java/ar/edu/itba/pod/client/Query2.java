@@ -53,16 +53,16 @@ public class Query2 {
         FileWriter timeStampWriter = new FileWriter(new File(outPath+"/time2.txt"));
         FileWriter csvWriter = new FileWriter(new File(outPath+"/query2.csv"));
 
-        String s = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Inicio de la lectura del archivo\n";
+        String s = QueryUtils.now() + " Query2: - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
         trees.putAll(Loader.loadNeighAndTree(inPath + "/arboles" + city + ".csv", city));
         ineighs.addAll(Loader.loadNeighbourhoodsSet(inPath + "/barrios" + city + ".csv", city));
 
         Set<String> neighs = new HashSet<>(ineighs);
-        String t = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Fin de la lectura del archivo\n";
+        String t = QueryUtils.now() + " Query2: - Fin de la lectura del archivo\n";
         timeStampWriter.append(t);
 
-        String u = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Inicio del trabajo map/reduce\n";
+        String u = QueryUtils.now() + " Query2: - Inicio del trabajo map/reduce\n";
         timeStampWriter.append(u);
         Job<String,Map.Entry<String,String>> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(trees));
         JobCompletableFuture<Set<Map.Entry<String, String>>> future = job
@@ -73,7 +73,7 @@ public class Query2 {
 
         Set<Map.Entry<String, String>> result = future.get();
         
-        String v = QueryUtils.now() + " INFO [main] Query2 (Query2.java:xx) - Fin del trabajo map/reduce\n";
+        String v = QueryUtils.now() + " Query2: - Fin del trabajo map/reduce\n";
         timeStampWriter.append(v);
 
         csvWriter.append("BARRIO;CALLE_CON_MAS_ARBOLES;ARBOLES\n");

@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Comparator;
+
 public class Q5ans {
     public int group;
     public String n1;
@@ -15,15 +17,18 @@ public class Q5ans {
     }
 
     public int compareTo(Q5ans x1) {
-        int f = n1.compareTo(x1.n1);
-        if(f==0) {
-            return n2.compareTo(x1.n2);
+        Integer x = group;
+        Integer y = x1.group;
+        if(x.compareTo(y)==0) {
+            int f = n1.compareTo(x1.n1);
+            if (f == 0) {
+                return n2.compareTo(x1.n2);
+            } else {
+                return f;
+            }
         }
-        else{
-            return f;
-        }
+        return y.compareTo(x);
     }
 }
-
 
 

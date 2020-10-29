@@ -50,15 +50,15 @@ public class Query3 {
         final IMap<String, Tree> map3 = client.getMap("g10Q3Trees");
         map3.clear();
 
-        String s = QueryUtils.now() + " INFO [main] Query3 (Query3.java:xx) - Inicio de la lectura del archivo\n";
+        String s = QueryUtils.now() + " Query3: - Inicio de la lectura del archivo\n";
         timeStampWriter.append(s);
 
         map3.putAll(Loader.loadTrees(inPath + "/arboles" + city + ".csv", city));
 
-        String t = QueryUtils.now() + " INFO [main] Query3 (Query3.java:xx) - Fin de la lectura del archivo\n";
+        String t = QueryUtils.now() + " Query3: - Fin de la lectura del archivo\n";
         timeStampWriter.append(t);
 
-        String u = QueryUtils.now() + " INFO [main] Query3 (Query3.java:xx) - Inicio del trabajo map/reduce\n";
+        String u = QueryUtils.now() + " Query3: - Inicio del trabajo map/reduce\n";
         timeStampWriter.append(u);
 
         Job<String, Tree> job = client.getJobTracker("g10jt").newJob(KeyValueSource.fromMap(map3));
@@ -70,7 +70,7 @@ public class Query3 {
 
         while(!future.isDone());
 
-        String v = QueryUtils.now() + " INFO [main] Query3 (Query3.java:xx) - Fin del trabajo map/reduce\n";
+        String v = QueryUtils.now() + " Query3: - Fin del trabajo map/reduce\n";
         timeStampWriter.append(v);
 
         List<Pair<String, Double>> result = future.get();
@@ -87,6 +87,7 @@ public class Query3 {
         });
         csvWriter.close();
         timeStampWriter.close();
+        map3.clear();
         client.shutdown();
     }
 }

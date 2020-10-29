@@ -56,10 +56,10 @@ public class Query4 {
 
         map.putAll(Loader.loadNeighToTreeName(inPath + "/arboles" + city + ".csv", city));
 
-        String t = QueryUtils.now() + " INFO [main] Query4 (Query4.java:xx) - Fin de la lectura del archivo\n";
+        String t = QueryUtils.now() + " Query4: - Fin de la lectura del archivo\n";
         timeStampWriter.append(t);
 
-        String u = QueryUtils.now() + " INFO [main] Query4 (Query4.java:xx) - Inicio del trabajo map/reduce\n";
+        String u = QueryUtils.now() + " Query4: - Inicio del trabajo map/reduce\n";
         timeStampWriter.append(u);
 
         JobTracker jobTracker = client.getJobTracker("g10q4");
@@ -73,7 +73,7 @@ public class Query4 {
 
         List<Map.Entry<String,String>> result = future.get();
 
-        String v = QueryUtils.now() + " INFO [main] Query4 (Query4.java:xx) - Fin del trabajo map/reduce\n";
+        String v = QueryUtils.now() + " Query4: - Fin del trabajo map/reduce\n";
         timeStampWriter.append(v);
 
         // Wait and retrieve the result
@@ -88,6 +88,7 @@ public class Query4 {
         });
         csvWriter.close();
         timeStampWriter.close();
+        map.clear();
         client.shutdown();
 //        JobTracker jobTracker = client.getJobTracker("g10q4");
 //        final KeyValueSource<Integer, Tree> source = KeyValueSource.fromMap(map2);
