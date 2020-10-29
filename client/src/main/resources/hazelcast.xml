@@ -63,7 +63,7 @@
             </aws>
         </join>
         <interfaces enabled="true">
-            <interface>127.0.0.*</interface>
+            <interface>192.168.0.*</interface>
         </interfaces>
         <ssl enabled="false"/>
         <socket-interceptor enabled="false"/>
@@ -229,7 +229,7 @@
         <topic-overload-policy>BLOCK</topic-overload-policy>
         <statistics-enabled>true</statistics-enabled>
     </reliable-topic>
-    
+
     <ringbuffer name="default">
         <capacity>10000</capacity>
         <backup-count>1</backup-count>

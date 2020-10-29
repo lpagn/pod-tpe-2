@@ -1,7 +1,0 @@
-#!/bin/bash
-
-#echo "Query 4"
-
-cd client/target/tpe2-g10-client-1.0-SNAPSHOT
-
-java $* -cp 'lib/jars/*' "ar.edu.itba.pod.client.Query4" $*

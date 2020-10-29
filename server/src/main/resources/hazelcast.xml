@@ -63,7 +63,7 @@
             </aws>
         </join>
         <interfaces enabled="true">
-            <interface>127.0.0.*</interface>
+            <interface>10.16.1.*</interface>
         </interfaces>
         <ssl enabled="false"/>
         <socket-interceptor enabled="false"/>
